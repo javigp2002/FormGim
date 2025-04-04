@@ -1,4 +1,4 @@
-package com.example.aplicaciongim
+package com.example.formgim
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -8,8 +8,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.aplicaciongim.presentation.MainScreen
-import com.example.aplicaciongim.ui.theme.AplicacionGIMTheme
+import com.example.formgim.presentation.MainScreen
+import com.example.formgim.ui.theme.FormGimTheme
 import com.appgim.domain.auth.usecases.DoSignInUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
-            AplicacionGIMTheme {
+            FormGimTheme {
                 MainScreen()
             }
         }
@@ -42,7 +42,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    AplicacionGIMTheme {
+    FormGimTheme {
         Greeting("Android")
     }
 }

@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.aplicaciongim"
+    namespace = "com.example.formgim"
     compileSdk = 35
     defaultConfig {
         minSdk = 24

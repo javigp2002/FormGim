@@ -1,4 +1,4 @@
-package com.example.aplicaciongim.presentation
+package com.example.formgim.presentation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,8 +7,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.example.aplicaciongim.components.MyBottomNavBar
-import com.example.aplicaciongim.navigation.Navigation
+import com.example.formgim.components.MyBottomNavBar
+import com.example.formgim.navigation.Navigation
 
 @Composable
 fun MainScreen (){

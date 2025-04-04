@@ -23,4 +23,4 @@ include(":domain")
 include(":ui")
 include(":data")
 include(":app")
-rootProject.name = "AplicacionGIM"
+rootProject.name = "FormGim"

@@ -1,4 +1,4 @@
-package com.example.aplicaciongim.navigation
+package com.example.formgim.navigation
 
 enum class NavigationScreenNames {
     HomeScreen
