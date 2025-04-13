@@ -35,20 +35,18 @@ fun LoginScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Campo de texto para el correo electrónico
             OutlinedTextField(
-                value = viewModel.email.value,
-                onValueChange = { viewModel.onEmailChange(it) },
+                value = viewModel.email,
+                onValueChange = { viewModel.updateEmail(it) },
                 label = { Text("Correo electrónico") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Campo de texto para la contraseña
             OutlinedTextField(
-                value = viewModel.password.value,
-                onValueChange = { viewModel.onPasswordChange(it) },
+                value = viewModel.password,
+                onValueChange = { viewModel.updatePassword(it) },
                 label = { Text("Contraseña") },
                 modifier = Modifier.fillMaxWidth(),
                 visualTransformation = PasswordVisualTransformation()
@@ -56,9 +54,8 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Botón para iniciar sesión
             TextButton(
-                onClick = { Log.d("LoginScreen", "Iniciar sesión con: ${viewModel.email.value}, ${viewModel.password.value}") },
+                onClick = { Log.d("LoginScreen", "Iniciar sesión con: ${viewModel.email}, ${viewModel.password}") },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Iniciar sesión")

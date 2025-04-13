@@ -2,22 +2,21 @@ package com.example.formgim.presentation.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 class LoginViewModel : ViewModel() {
-    private val _email = mutableStateOf("")
-    val email: State<String> = _email
+    var email by mutableStateOf("")
+        private set
 
-    private val _password = mutableStateOf("")
-    val password: State<String> = _password
+    var password by mutableStateOf("")
+        private set
 
-    fun onEmailChange(newEmail: String) {
-        _email.value = newEmail
+    fun updateEmail(newEmail: String) {
+        email = newEmail
     }
 
-    fun onPasswordChange(newPassword: String) {
-        _password.value = newPassword
+    fun updatePassword(newPassword: String) {
+        password = newPassword
     }
 }
-
-

@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.formgim.presentation.HomeScreen
+import com.example.formgim.presentation.auth.LoginScreen
 
 @Composable
 fun Navigation(
@@ -16,6 +17,9 @@ fun Navigation(
     ){
         composable(NavigationScreenNames.HomeScreen.name){
             HomeScreen()
+        }
+        composable(NavigationScreenNames.Login.name){
+            LoginScreen()
         }
     }
 }
