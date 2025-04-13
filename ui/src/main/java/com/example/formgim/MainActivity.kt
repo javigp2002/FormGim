@@ -10,14 +10,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.formgim.presentation.MainScreen
 import com.example.formgim.ui.theme.FormGimTheme
-import com.appgim.domain.auth.usecases.DoSignInUseCase
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Inject lateinit var doSignInUseCase: DoSignInUseCase
+    // example
+    // @Inject lateinit var doSignInUseCase: DoSignInUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
