@@ -7,23 +7,33 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.example.formgim.presentation.main.navigation.MainNavigationScreenNames
 import com.example.formgim.presentation.main.navigation.components.BottomNavHost
 import com.example.formgim.presentation.main.navigation.components.MyBottomNavBar
+import com.example.formgim.presentation.main.navigation.currentRoute
 
 @Composable
 fun MainScreen (logout: ()->Unit = {}){
-
     val navController = rememberNavController()
-    Scaffold (
+    val currentDestination = currentRoute(navController)
+
+    val showBottomBarInSelectedDestinations = when (currentDestination) {
+        MainNavigationScreenNames.HomeScreen.name, MainNavigationScreenNames.Settings.name -> true
+        else -> false
+    }
+
+    Scaffold(
         bottomBar = {
-            MyBottomNavBar(navController)
+            if (showBottomBarInSelectedDestinations) {
+                MyBottomNavBar(navController)
+            }
         }
-    ){ padding ->
+    ) { padding ->
         Box(
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize()
-        ){
+        ) {
             BottomNavHost(navController, logout)
         }
     }
