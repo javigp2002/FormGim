@@ -1,4 +1,4 @@
-package com.example.formgim.navigation
+package com.example.formgim.presentation.main.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController

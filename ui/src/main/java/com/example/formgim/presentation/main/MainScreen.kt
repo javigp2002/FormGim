@@ -1,4 +1,4 @@
-package com.example.formgim.presentation
+package com.example.formgim.presentation.main
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,15 +7,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.example.formgim.components.MyBottomNavBar
-import com.example.formgim.navigation.Navigation
+import com.example.formgim.presentation.main.navigation.components.BottomNavHost
+import com.example.formgim.presentation.main.navigation.components.MyBottomNavBar
 
 @Composable
-fun MainScreen (){
-    val navcontroller = rememberNavController()
+fun MainScreen (logout: ()->Unit = {}){
+
+    val navController = rememberNavController()
     Scaffold (
         bottomBar = {
-            MyBottomNavBar(navcontroller)
+            MyBottomNavBar(navController)
         }
     ){ padding ->
         Box(
@@ -23,7 +24,7 @@ fun MainScreen (){
                 .padding(padding)
                 .fillMaxSize()
         ){
-            Navigation(navController = navcontroller)
+            BottomNavHost(navController, logout)
         }
     }
 }

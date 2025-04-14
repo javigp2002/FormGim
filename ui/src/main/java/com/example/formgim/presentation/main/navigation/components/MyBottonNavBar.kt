@@ -1,4 +1,4 @@
-package com.example.formgim.components
+package com.example.formgim.presentation.main.navigation.components
 
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
@@ -6,9 +6,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import com.example.formgim.models.ItemsBottonNav
-import com.example.formgim.navigation.currentRoute
+import com.example.formgim.presentation.main.navigation.models.ItemsBottonNav
+import com.example.formgim.presentation.main.navigation.currentRoute
 
 @Composable
 fun MyBottomNavBar(
@@ -28,7 +29,16 @@ fun MyBottomNavBar(
                 NavigationBarItem(
                     selected = selectedItem ,
                     onClick = {
-                        navHostController.navigate(item.ruta)
+                        navHostController.navigate(item.ruta){
+                            popUpTo(navHostController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            // Avoid multiple copies of the same destination when
+                            // reselecting the same item
+                            launchSingleTop = true
+                            // Restore state when reselecting a previously selected item
+                            restoreState = true
+                        }
                     },
                     icon = {
                         Icon(imageVector = item.icon,

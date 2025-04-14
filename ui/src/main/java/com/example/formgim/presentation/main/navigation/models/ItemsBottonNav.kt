@@ -1,10 +1,10 @@
-package com.example.formgim.models
+package com.example.formgim.presentation.main.navigation.models
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.Login
+import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.example.formgim.navigation.NavigationScreenNames
+import com.example.formgim.presentation.main.navigation.MainNavigationScreenNames
 
 sealed class ItemsBottonNav(
     val icon: ImageVector,
@@ -14,11 +14,11 @@ sealed class ItemsBottonNav(
     object ItemBottonNav1: ItemsBottonNav(
         Icons.Outlined.Home,
         "Home",
-        NavigationScreenNames.HomeScreen.name
+        MainNavigationScreenNames.HomeScreen.name
     )
     object ItemBottonNav2: ItemsBottonNav(
-        Icons.AutoMirrored.Outlined.Login,
-        "Login",
-        NavigationScreenNames.Login.name
+        Icons.Outlined.AccountCircle,
+        "Settings",
+        MainNavigationScreenNames.Settings.name
     )
 }

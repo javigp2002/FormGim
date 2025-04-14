@@ -4,22 +4,38 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.formgim.presentation.HomeScreen
+import com.example.formgim.presentation.main.MainScreen
 import com.example.formgim.presentation.auth.LoginScreen
+import com.example.formgim.presentation.splash.SplashScreen
 
 @Composable
 fun Navigation(
-    navController: NavHostController
+    navController: NavHostController,
 ){
     NavHost(
         navController = navController,
-        startDestination = NavigationScreenNames.HomeScreen.name
+        startDestination = GeneralNavigationScreenNames.Splash.name
     ){
-        composable(NavigationScreenNames.HomeScreen.name){
-            HomeScreen()
+        composable(GeneralNavigationScreenNames.Splash.name){
+            SplashScreen(
+                onClickGoToLogin = {
+                    navController.navigate(GeneralNavigationScreenNames.Login.name){
+                        popUpTo(GeneralNavigationScreenNames.Splash.name) { inclusive = true }
+                    }
+                },
+            )
         }
-        composable(NavigationScreenNames.Login.name){
-            LoginScreen()
+
+        composable(GeneralNavigationScreenNames.Login.name){
+            LoginScreen(onSuccessGoToMain = {
+                navController.navigate(GeneralNavigationScreenNames.Main.name) {
+                    popUpTo(GeneralNavigationScreenNames.Login.name) { inclusive = true }
+                }
+            })
+        }
+
+        composable(GeneralNavigationScreenNames.Main.name){
+            MainScreen()
         }
     }
 }
