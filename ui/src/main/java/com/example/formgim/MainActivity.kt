@@ -8,7 +8,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.formgim.presentation.MainScreen
+import androidx.navigation.compose.rememberNavController
+import com.example.formgim.navigation.Navigation
 import com.example.formgim.ui.theme.FormGimTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,7 +25,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             FormGimTheme {
-                MainScreen()
+                val navController = rememberNavController()
+                Navigation(navController = navController)
             }
         }
     }
