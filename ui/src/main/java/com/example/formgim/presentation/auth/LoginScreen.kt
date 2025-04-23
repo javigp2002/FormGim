@@ -1,5 +1,6 @@
 package com.example.formgim.presentation.auth
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -57,7 +58,9 @@ fun LoginScreen(
                 onClick = {
                     onSuccessGoToMain()
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .border(1.dp, androidx.compose.ui.graphics.Color.Black)
             ) {
                 Text("Iniciar sesión")
             }
