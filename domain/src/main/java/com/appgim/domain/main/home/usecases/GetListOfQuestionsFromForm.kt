@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetListOfQuestionsFromForm @Inject constructor(
     private val formRepository: FormRepository
 ) {
-    fun run(idForm: Int): List<QuestionTypes> {
+    suspend fun run(idForm: Int): List<QuestionTypes> {
         return formRepository.getListOfQuestionsFromForm()
     }
 }
