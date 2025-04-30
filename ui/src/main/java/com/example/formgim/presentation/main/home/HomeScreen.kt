@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.formgim.ui.theme.Constants
 
 @Composable
 fun HomeScreen(goToDetail: () -> Unit = {}) {
@@ -18,7 +19,7 @@ fun HomeScreen(goToDetail: () -> Unit = {}) {
         topBar = {
             Text(
                 text = "Home",
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(Constants.PaddingSizes.M.dp),
                 style = androidx.compose.material3.MaterialTheme.typography.titleLarge
             )
         }
@@ -32,11 +33,11 @@ fun HomeScreen(goToDetail: () -> Unit = {}) {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp),
+                        .padding(Constants.PaddingSizes.M.dp),
                 ) {
                     Text(
                         text = "Card $index",
-                        modifier = Modifier.padding(16.dp)
+                        modifier = Modifier.padding(Constants.PaddingSizes.L.dp)
                     )
                 }
             }
