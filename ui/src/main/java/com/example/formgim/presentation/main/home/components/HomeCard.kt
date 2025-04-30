@@ -18,20 +18,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.formgim.presentation.main.home.components.models.HomeFormCard
+import com.appgim.domain.main.home.models.HomeFormCard
 import com.example.formgim.ui.theme.Constants
 
 
 @Composable
 fun HomeCard(
-    homeFormCard: HomeFormCard
+    homeFormCard: HomeFormCard,
+    onClick: () -> Unit = {},
 ) {
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(Constants.PaddingSizes.M.dp)
-            .clickable { homeFormCard.onClick },
+            .clickable { onClick },
         elevation = CardDefaults.cardElevation(Constants.Dimensions.CARD_ELEVATION.dp)
     ) {
         Column(
@@ -47,7 +47,7 @@ fun HomeCard(
                 horizontalArrangement = Arrangement.End
             ) {
                 TextButton(
-                    onClick = homeFormCard.onClick,
+                    onClick = onClick,
                     modifier = Modifier.border(
                         width = Constants.Dimensions.BUTTON_BORDER.dp,
                         color = MaterialTheme.colorScheme.primary,
@@ -71,7 +71,6 @@ fun HomeCardPreview() {
             id = 1,
             title = "Card Title",
             author = "Author Name",
-            onClick = {}
         )
     )
 }
