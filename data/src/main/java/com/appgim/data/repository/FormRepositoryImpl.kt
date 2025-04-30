@@ -1,16 +1,42 @@
 package com.appgim.data.repository
 
+import com.appgim.domain.main.home.models.HomeFormCard
 import com.appgim.domain.main.home.models.form.MultipleOptionModel
 import com.appgim.domain.main.home.models.form.QuestionTypes
 import com.appgim.domain.main.home.models.form.SingleOptionModel
 import com.appgim.domain.main.home.models.form.SliderBoxModel
 import com.appgim.domain.main.home.models.form.TextBoxModel
 import com.appgim.domain.main.home.repositories.FormRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class FormRepositoryImpl @Inject constructor() : FormRepository {
-    override fun getListOfQuestionsFromForm(): List<QuestionTypes> {
-        return listOf(
+    override suspend fun getActiveForms(): Result<List<HomeFormCard>> =
+        withContext(Dispatchers.IO) {
+            try {
+                Result.success(
+                    listOf(
+                        HomeFormCard(
+                            id = 1,
+                            title = "Encuesta de satisfacción",
+                            author = "Woser Woser?",
+                        ),
+                        HomeFormCard(
+                            id = 2,
+                            title = "Registro de usuario",
+                            author = "Juan Pérez",
+                        ),
+                    )
+                )
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+        }
+
+    override suspend fun getListOfQuestionsFromForm(): List<QuestionTypes> =
+        withContext(Dispatchers.IO) {
+            listOf(
             QuestionTypes.Multiple(
                 MultipleOptionModel(
                     id = 1,
