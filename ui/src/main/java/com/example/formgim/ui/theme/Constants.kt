@@ -12,5 +12,6 @@ object Constants {
     object Dimensions {
         const val CARD_ELEVATION = 4
         const val CARD_RADIUS = 8
+        const val BUTTON_BORDER = 1
     }
 }
