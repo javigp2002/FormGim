@@ -1,4 +1,4 @@
-package com.example.formgim.presentation.main.home.detail
+package com.example.formgim.presentation.main.home.form_to_fill
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -8,7 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun DetailScreen() {
+fun FormToFillScreen() {
+
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Greeting(
             name = "Android",

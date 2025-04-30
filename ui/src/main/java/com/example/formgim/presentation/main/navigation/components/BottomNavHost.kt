@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.formgim.presentation.main.home.HomeScreen
-import com.example.formgim.presentation.main.home.detail.DetailScreen
+import com.example.formgim.presentation.main.home.form_to_fill.FormToFillScreen
 import com.example.formgim.presentation.main.navigation.MainNavigationScreenNames
 
 @Composable
@@ -19,7 +19,7 @@ fun BottomNavHost(navController: NavHostController,
             )
         }
         composable(MainNavigationScreenNames.Detail.name) {
-            DetailScreen()
+            FormToFillScreen()
         }
 
         composable(MainNavigationScreenNames.Settings.name) {
