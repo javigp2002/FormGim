@@ -1,8 +1,9 @@
 package com.appgim.data.di
 
 import com.appgim.data.repository.AuthRepositoryImpl
+import com.appgim.data.repository.FormRepositoryImpl
 import com.appgim.domain.auth.repositories.AuthRepository
-import dagger.Binds
+import com.appgim.domain.main.home.repositories.FormRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,5 +16,10 @@ object DataModule {
     @Provides
     fun provideAuth(authRepositoryImpl: AuthRepositoryImpl): AuthRepository {
         return authRepositoryImpl
+    }
+
+    @Provides
+    fun provideForm(formRepositoryImpl: FormRepositoryImpl): FormRepository {
+        return formRepositoryImpl
     }
 }
