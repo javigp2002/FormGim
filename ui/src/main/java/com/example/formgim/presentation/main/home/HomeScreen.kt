@@ -6,10 +6,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.appgim.domain.main.home.models.HomeFormCard
 import com.example.formgim.presentation.main.home.components.HomeCard
 import com.example.formgim.ui.theme.Constants
@@ -17,9 +19,13 @@ import com.example.formgim.ui.theme.Constants
 @Composable
 fun HomeScreen(
     goToDetail: () -> Unit = {},
-    homeScreenViewmodel: HomeScreenViewmodel = HomeScreenViewmodel()
+    homeScreenViewmodel: HomeScreenViewmodel = hiltViewModel()
 ) {
     val homeListState by homeScreenViewmodel.listFormsState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        homeScreenViewmodel.updateListState()
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
