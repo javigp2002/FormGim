@@ -4,7 +4,8 @@ sealed class QuestionTypes(
     val id: Int,
     val text: String
 ) {
-    class TextBox(textBoxModel: TextBoxModel) : QuestionTypes(textBoxModel.id, textBoxModel.title)
+    class TextBox(val textBoxModel: TextBoxModel) :
+        QuestionTypes(textBoxModel.id, textBoxModel.title)
     class Slider(sliderBoxModel: SliderBoxModel) :
         QuestionTypes(sliderBoxModel.id, sliderBoxModel.question)
 
