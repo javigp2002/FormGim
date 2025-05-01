@@ -12,6 +12,6 @@ sealed class QuestionTypes(
     class Multiple(multipleOptionModel: MultipleOptionModel) :
         QuestionTypes(multipleOptionModel.id, multipleOptionModel.question)
 
-    class SingleOption(singleOptionModel: SingleOptionModel) :
+    class SingleOption(val singleOptionModel: SingleOptionModel) :
         QuestionTypes(singleOptionModel.id, singleOptionModel.question)
 }
