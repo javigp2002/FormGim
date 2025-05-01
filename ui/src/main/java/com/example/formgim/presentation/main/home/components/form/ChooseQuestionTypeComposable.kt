@@ -16,7 +16,13 @@ fun ChooseQuestionTypeComposable(questionType: QuestionTypes) {
 
         is QuestionTypes.Multiple -> TODO()
         is QuestionTypes.SingleOption -> TODO()
-        is QuestionTypes.Slider -> TODO()
+        is QuestionTypes.Slider -> {
+            SliderQuestion(
+                questionTitle = questionType.sliderBoxModel.question,
+                value = questionType.sliderBoxModel.answer,
+                onValorChange = { questionType.sliderBoxModel.answer = it },
+            )
+        }
     }
 }
 

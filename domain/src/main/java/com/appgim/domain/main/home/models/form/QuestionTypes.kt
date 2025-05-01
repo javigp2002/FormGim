@@ -6,7 +6,7 @@ sealed class QuestionTypes(
 ) {
     class TextBox(val textBoxModel: TextBoxModel) :
         QuestionTypes(textBoxModel.id, textBoxModel.title)
-    class Slider(sliderBoxModel: SliderBoxModel) :
+    class Slider(val sliderBoxModel: SliderBoxModel) :
         QuestionTypes(sliderBoxModel.id, sliderBoxModel.question)
 
     class Multiple(multipleOptionModel: MultipleOptionModel) :
