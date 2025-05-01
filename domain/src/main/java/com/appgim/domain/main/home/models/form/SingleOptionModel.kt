@@ -4,5 +4,5 @@ data class SingleOptionModel(
     val id: Int,
     val question: String,
     val opciones: List<String>,
-    var seleccion: Int = -1,
+    var seleccion: Int? = null,
 )
