@@ -4,5 +4,5 @@ data class MultipleOptionModel(
     val id: Int,
     val question: String,
     val opciones: List<String>,
-    var seleccion: Int? = null
+    var seleccion: Set<Int> = emptySet<Int>()
 )

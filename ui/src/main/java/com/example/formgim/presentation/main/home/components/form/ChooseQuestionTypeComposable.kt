@@ -14,7 +14,14 @@ fun ChooseQuestionTypeComposable(questionType: QuestionTypes) {
             )
         }
 
-        is QuestionTypes.Multiple -> TODO()
+        is QuestionTypes.Multiple -> {
+            MultipleOptionQuestion(
+                questionTitle = questionType.multipleOptionModel.question,
+                options = questionType.multipleOptionModel.opciones,
+                selected = questionType.multipleOptionModel.seleccion,
+                onSeleccionChange = { questionType.multipleOptionModel.seleccion = it },
+            )
+        }
         is QuestionTypes.SingleOption -> {
             SingleOptionAnswerQuestion(
                 questionTitle = questionType.singleOptionModel.question,

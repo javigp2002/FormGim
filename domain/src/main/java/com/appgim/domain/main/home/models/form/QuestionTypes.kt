@@ -9,7 +9,7 @@ sealed class QuestionTypes(
     class Slider(val sliderBoxModel: SliderBoxModel) :
         QuestionTypes(sliderBoxModel.id, sliderBoxModel.question)
 
-    class Multiple(multipleOptionModel: MultipleOptionModel) :
+    class Multiple(val multipleOptionModel: MultipleOptionModel) :
         QuestionTypes(multipleOptionModel.id, multipleOptionModel.question)
 
     class SingleOption(val singleOptionModel: SingleOptionModel) :
