@@ -27,4 +27,49 @@ class FormToFillVm @Inject constructor(
         }
     }
 
+    fun updateAnswer(index: Int, answer: String) {
+        val updatedList = _listOfQuestions.value.toMutableList()
+        val question = updatedList[index]
+        if (question is QuestionTypes.TextBox) {
+            val updatedQuestion = QuestionTypes.TextBox(
+                question.textBoxModel.copy(answer = answer)
+            )
+            updatedList[index] = updatedQuestion
+            _listOfQuestions.value = updatedList
+        }
+    }
+
+    fun updateSliderAnswer(index: Int, answer: Float) {
+        val updatedList = _listOfQuestions.value.toMutableList()
+        val question = updatedList[index]
+        if (question is QuestionTypes.Slider) {
+            updatedList[index] = QuestionTypes.Slider(
+                question.sliderBoxModel.copy(answer = answer)
+            )
+            _listOfQuestions.value = updatedList
+        }
+    }
+
+    fun updateSingleSelection(index: Int, selected: Int) {
+        val updatedList = _listOfQuestions.value.toMutableList()
+        val question = updatedList[index]
+        if (question is QuestionTypes.SingleOption) {
+            updatedList[index] = QuestionTypes.SingleOption(
+                question.singleOptionModel.copy(seleccion = selected)
+            )
+            _listOfQuestions.value = updatedList
+        }
+    }
+
+    fun updateMultipleSelection(index: Int, selected: Set<Int>) {
+        val updatedList = _listOfQuestions.value.toMutableList()
+        val question = updatedList[index]
+        if (question is QuestionTypes.Multiple) {
+            updatedList[index] = QuestionTypes.Multiple(
+                question.multipleOptionModel.copy(seleccion = selected)
+            )
+            _listOfQuestions.value = updatedList
+        }
+    }
+
 }
