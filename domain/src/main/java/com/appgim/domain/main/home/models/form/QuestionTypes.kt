@@ -4,14 +4,15 @@ sealed class QuestionTypes(
     val id: Int,
     val text: String
 ) {
-    class TextBox(val textBoxModel: TextBoxModel) :
+    data class TextBox(val textBoxModel: TextBoxModel) :
         QuestionTypes(textBoxModel.id, textBoxModel.title)
-    class Slider(val sliderBoxModel: SliderBoxModel) :
+
+    data class Slider(val sliderBoxModel: SliderBoxModel) :
         QuestionTypes(sliderBoxModel.id, sliderBoxModel.question)
 
-    class Multiple(val multipleOptionModel: MultipleOptionModel) :
+    data class Multiple(val multipleOptionModel: MultipleOptionModel) :
         QuestionTypes(multipleOptionModel.id, multipleOptionModel.question)
 
-    class SingleOption(val singleOptionModel: SingleOptionModel) :
+    data class SingleOption(val singleOptionModel: SingleOptionModel) :
         QuestionTypes(singleOptionModel.id, singleOptionModel.question)
 }
