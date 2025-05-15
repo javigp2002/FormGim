@@ -4,5 +4,6 @@
     <string name="error_title">Error</string>
     <string name="error_message">Por favor, completa todas las preguntas.</string>
     <string name="accept_button">Aceptar</string>
+    <string name="send_button">Enviar</string>
 
 </resources>
