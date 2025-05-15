@@ -3,7 +3,9 @@ package com.example.formgim.presentation.main.home.components.form
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,7 +18,8 @@ fun SingleOptionAnswerQuestion(
     questionTitle: String,
     options: List<String>,
     selection: Int,
-    onSeleccionChange: (Int) -> Unit
+    onSeleccionChange: (Int) -> Unit,
+    isError: Boolean
 ) {
     Column(modifier = Modifier.padding(Constants.PaddingSizes.L.dp)) {
         Text(text = questionTitle)
@@ -24,7 +27,15 @@ fun SingleOptionAnswerQuestion(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 RadioButton(
                     selected = selection == index,
-                    onClick = { onSeleccionChange(index) }
+                    onClick = { onSeleccionChange(index) },
+                    colors = if (isError) {
+                        RadioButtonDefaults.colors(
+                            selectedColor = MaterialTheme.colorScheme.error,
+                            unselectedColor = MaterialTheme.colorScheme.error
+                        )
+                    } else {
+                        RadioButtonDefaults.colors()
+                    }
                 )
                 Text(text = opcion)
             }

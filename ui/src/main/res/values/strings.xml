@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">FormGim</string>
+    <!-- Form -->
+    <string name="error_title">Error</string>
+    <string name="error_message">Por favor, completa todas las preguntas.</string>
+    <string name="accept_button">Aceptar</string>
+
 </resources>

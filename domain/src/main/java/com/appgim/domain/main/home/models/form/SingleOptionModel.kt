@@ -5,4 +5,5 @@ data class SingleOptionModel(
     val question: String,
     val opciones: List<String>,
     var seleccion: Int = -1,
+    var error: Boolean = false,
 )

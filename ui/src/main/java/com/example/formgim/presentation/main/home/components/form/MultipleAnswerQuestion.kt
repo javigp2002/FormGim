@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,7 +18,8 @@ fun MultipleOptionQuestion(
     questionTitle: String,
     options: List<String>,
     selected: Set<Int>,
-    onSeleccionChange: (Set<Int>) -> Unit
+    onSeleccionChange: (Set<Int>) -> Unit,
+    isError: Boolean
 ) {
     Column(modifier = Modifier.padding(Constants.PaddingSizes.L.dp)) {
         Text(text = questionTitle)
@@ -28,7 +31,17 @@ fun MultipleOptionQuestion(
                         val nuevaSeleccion = selected.toMutableSet()
                         if (it) nuevaSeleccion.add(index) else nuevaSeleccion.remove(index)
                         onSeleccionChange(nuevaSeleccion)
+                    },
+
+                    colors = if (isError) {
+                        CheckboxDefaults.colors(
+                            checkedColor = MaterialTheme.colorScheme.error,
+                            uncheckedColor = MaterialTheme.colorScheme.error
+                        )
+                    } else {
+                        CheckboxDefaults.colors()
                     }
+
                 )
                 Text(text = opcion)
             }

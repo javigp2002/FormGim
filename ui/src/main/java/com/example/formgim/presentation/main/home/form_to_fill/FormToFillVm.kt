@@ -18,6 +18,9 @@ class FormToFillVm @Inject constructor(
     private val _listOfQuestions = MutableStateFlow<List<QuestionTypes>>(emptyList())
     val listOfQuestions: StateFlow<List<QuestionTypes>> = _listOfQuestions.asStateFlow()
 
+    private val _showErrorDialog = MutableStateFlow(false)
+    val showErrorDialog: StateFlow<Boolean> = _showErrorDialog
+
 
     fun getListOfQuestionsFromFormId(id: Int) {
         viewModelScope.launch {
@@ -71,5 +74,69 @@ class FormToFillVm @Inject constructor(
             _listOfQuestions.value = updatedList
         }
     }
+
+    fun submitValues() {
+        if (!checkAnswers()) {
+            _showErrorDialog.value = true
+            return
+        }
+    }
+
+    fun checkAnswers(): Boolean {
+        var result = true
+        val updatedList = _listOfQuestions.value.toMutableList()
+
+        _listOfQuestions.value.forEachIndexed { index, question ->
+            when (question) {
+                is QuestionTypes.TextBox -> {
+                    var error = false
+                    if (question.textBoxModel.answer.isEmpty()) {
+                        error = true
+                        result = false
+                    }
+                    val updatedQuestion = QuestionTypes.TextBox(
+                        question.textBoxModel.copy(error = error)
+                    )
+                    updatedList[index] = updatedQuestion
+
+                }
+
+                is QuestionTypes.Slider -> {}
+                is QuestionTypes.SingleOption -> {
+                    var error = false
+                    if (question.singleOptionModel.seleccion < 0 || question.singleOptionModel.seleccion > question
+                            .singleOptionModel.opciones.size
+                    ) {
+                        error = true
+                        result = false
+                    }
+                    val updatedQuestion = QuestionTypes.SingleOption(
+                        question.singleOptionModel.copy(error = error)
+                    )
+                    updatedList[index] = updatedQuestion
+                }
+
+                is QuestionTypes.Multiple -> {
+                    var error = false
+                    if (question.multipleOptionModel.seleccion.isEmpty()) {
+                        error = true
+                        result = false
+                    }
+                    val updatedQuestion = QuestionTypes.Multiple(
+                        question.multipleOptionModel.copy(error = error)
+                    )
+                    updatedList[index] = updatedQuestion
+                }
+            }
+        }
+        _listOfQuestions.value = updatedList
+        return result
+    }
+
+
+    fun dismissDialog() {
+        _showErrorDialog.value = false
+    }
+
 
 }

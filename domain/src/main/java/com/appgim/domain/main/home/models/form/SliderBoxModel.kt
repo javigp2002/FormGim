@@ -3,5 +3,6 @@ package com.appgim.domain.main.home.models.form
 data class SliderBoxModel(
     val id: Int,
     val question: String,
-    var answer: Float = 50f
+    var answer: Float = 50f,
+    var error: Boolean = false,
 )

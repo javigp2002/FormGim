@@ -16,7 +16,8 @@ fun ChooseQuestionTypeComposable(
             BoxQuestion(
                 questionTitle = questionType.textBoxModel.title,
                 value = questionType.textBoxModel.answer,
-                onTextoChange = onAnswerChanged
+                onTextoChange = onAnswerChanged,
+                isError = questionType.textBoxModel.error
             )
         }
 
@@ -26,6 +27,7 @@ fun ChooseQuestionTypeComposable(
                 options = questionType.multipleOptionModel.opciones,
                 selected = questionType.multipleOptionModel.seleccion,
                 onSeleccionChange = onMultipleChanged,
+                isError = questionType.multipleOptionModel.error
             )
         }
         is QuestionTypes.SingleOption -> {
@@ -34,6 +36,7 @@ fun ChooseQuestionTypeComposable(
                 options = questionType.singleOptionModel.opciones,
                 selection = questionType.singleOptionModel.seleccion,
                 onSeleccionChange = onSingleChanged,
+                isError = questionType.singleOptionModel.error
             )
         }
         is QuestionTypes.Slider -> {
