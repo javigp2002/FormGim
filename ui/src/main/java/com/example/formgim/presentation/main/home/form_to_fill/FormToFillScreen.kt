@@ -17,8 +17,7 @@ import com.example.formgim.presentation.main.home.components.form.ChooseQuestion
 
 @Composable
 fun FormToFillScreen(viewModel: FormToFillVm = hiltViewModel()) {
-    val listOfQuestions by viewModel.listOfQuestions.collectAsState()
-    val showDialog by viewModel.showErrorDialog.collectAsState()
+    val listFormState by viewModel.stateOfView.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.getListOfQuestionsFromFormId(1)
@@ -30,9 +29,9 @@ fun FormToFillScreen(viewModel: FormToFillVm = hiltViewModel()) {
                 .fillMaxSize()
                 .padding(0.dp, innerPadding.calculateTopPadding(), 0.dp, 0.dp)
         ) {
-            items(listOfQuestions.size) { index ->
+            items(listFormState.forms.size) { index ->
                 ChooseQuestionTypeComposable(
-                    listOfQuestions[index],
+                    listFormState.forms[index],
                     onAnswerChanged = { answer -> viewModel.updateAnswer(index, answer) },
                     onMultipleChanged = { answer ->
                         viewModel.updateMultipleSelection(
@@ -59,7 +58,7 @@ fun FormToFillScreen(viewModel: FormToFillVm = hiltViewModel()) {
             }
         }
 
-        if (showDialog) {
+        if (listFormState.error) {
             MyShowErrorDialog { viewModel.dismissDialog() }
         }
     }

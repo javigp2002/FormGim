@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appgim.domain.main.home.models.form.QuestionTypes
 import com.appgim.domain.main.home.usecases.GetListOfQuestionsFromForm
+import com.example.formgim.presentation.main.home.form_to_fill.states.ListFormState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,90 +16,98 @@ import javax.inject.Inject
 class FormToFillVm @Inject constructor(
     private val getListOfQuestionsFromForm: GetListOfQuestionsFromForm
 ) : ViewModel() {
-    private val _listOfQuestions = MutableStateFlow<List<QuestionTypes>>(emptyList())
-    val listOfQuestions: StateFlow<List<QuestionTypes>> = _listOfQuestions.asStateFlow()
 
-    private val _showErrorDialog = MutableStateFlow(false)
-    val showErrorDialog: StateFlow<Boolean> = _showErrorDialog
+    private val _stateOfView = MutableStateFlow<ListFormState>(ListFormState())
+    val stateOfView: StateFlow<ListFormState> = _stateOfView.asStateFlow()
 
 
     fun getListOfQuestionsFromFormId(id: Int) {
         viewModelScope.launch {
             getListOfQuestionsFromForm.run(id).let { questions ->
-                _listOfQuestions.value = questions
+                _stateOfView.value = _stateOfView.value.copy(forms = questions)
             }
         }
     }
 
     fun updateAnswer(index: Int, answer: String) {
-        val updatedList = _listOfQuestions.value.toMutableList()
+        val updatedList = _stateOfView.value.forms.toMutableList()
         val question = updatedList[index]
         if (question is QuestionTypes.TextBox) {
             val updatedQuestion = QuestionTypes.TextBox(
                 question.textBoxModel.copy(answer = answer)
             )
             updatedList[index] = updatedQuestion
-            _listOfQuestions.value = updatedList
         }
+        _stateOfView.value = _stateOfView.value.copy(
+            forms = updatedList
+        )
     }
 
     fun updateSliderAnswer(index: Int, answer: Float) {
-        val updatedList = _listOfQuestions.value.toMutableList()
+        val updatedList = _stateOfView.value.forms.toMutableList()
         val question = updatedList[index]
         if (question is QuestionTypes.Slider) {
             updatedList[index] = QuestionTypes.Slider(
                 question.sliderBoxModel.copy(answer = answer)
             )
-            _listOfQuestions.value = updatedList
         }
+        _stateOfView.value = _stateOfView.value.copy(
+            forms = updatedList
+        )
     }
 
     fun updateSingleSelection(index: Int, selected: Int) {
-        val updatedList = _listOfQuestions.value.toMutableList()
+        val updatedList = _stateOfView.value.forms.toMutableList()
         val question = updatedList[index]
         if (question is QuestionTypes.SingleOption) {
             updatedList[index] = QuestionTypes.SingleOption(
                 question.singleOptionModel.copy(seleccion = selected)
             )
-            _listOfQuestions.value = updatedList
         }
+        _stateOfView.value = _stateOfView.value.copy(
+            forms = updatedList
+        )
     }
 
     fun updateMultipleSelection(index: Int, selected: Set<Int>) {
-        val updatedList = _listOfQuestions.value.toMutableList()
+        val updatedList = _stateOfView.value.forms.toMutableList()
         val question = updatedList[index]
         if (question is QuestionTypes.Multiple) {
             updatedList[index] = QuestionTypes.Multiple(
                 question.multipleOptionModel.copy(seleccion = selected)
             )
-            _listOfQuestions.value = updatedList
         }
+        _stateOfView.value = _stateOfView.value.copy(
+            forms = updatedList
+        )
+
     }
 
     fun submitValues() {
         if (!checkAnswers()) {
-            _showErrorDialog.value = true
+            _stateOfView.value = _stateOfView.value.copy(
+                error = true
+            )
             return
         }
     }
 
     fun checkAnswers(): Boolean {
-        var result = true
-        val updatedList = _listOfQuestions.value.toMutableList()
+        var ok = true
+        val updatedList = _stateOfView.value.forms.toMutableList()
 
-        _listOfQuestions.value.forEachIndexed { index, question ->
+        _stateOfView.value.forms.forEachIndexed { index, question ->
             when (question) {
                 is QuestionTypes.TextBox -> {
                     var error = false
                     if (question.textBoxModel.answer.isEmpty()) {
                         error = true
-                        result = false
+                        ok = false
                     }
                     val updatedQuestion = QuestionTypes.TextBox(
                         question.textBoxModel.copy(error = error)
                     )
                     updatedList[index] = updatedQuestion
-
                 }
 
                 is QuestionTypes.Slider -> {}
@@ -108,7 +117,7 @@ class FormToFillVm @Inject constructor(
                             .singleOptionModel.opciones.size
                     ) {
                         error = true
-                        result = false
+                        ok = false
                     }
                     val updatedQuestion = QuestionTypes.SingleOption(
                         question.singleOptionModel.copy(error = error)
@@ -120,7 +129,7 @@ class FormToFillVm @Inject constructor(
                     var error = false
                     if (question.multipleOptionModel.seleccion.isEmpty()) {
                         error = true
-                        result = false
+                        ok = false
                     }
                     val updatedQuestion = QuestionTypes.Multiple(
                         question.multipleOptionModel.copy(error = error)
@@ -129,13 +138,15 @@ class FormToFillVm @Inject constructor(
                 }
             }
         }
-        _listOfQuestions.value = updatedList
-        return result
+        _stateOfView.value = _stateOfView.value.copy(
+            forms = updatedList
+        )
+        return ok
     }
 
 
     fun dismissDialog() {
-        _showErrorDialog.value = false
+        _stateOfView.value = _stateOfView.value.copy(error = false)
     }
 
 

@@ -18,11 +18,11 @@ import com.example.formgim.ui.theme.Constants
 @Composable
 fun MyShowErrorDialog(acceptOption: () -> Unit) {
     AlertDialog(
-        onDismissRequest = { acceptOption },
+        onDismissRequest = { acceptOption() },
         title = { Text(text = stringResource(id = R.string.error_title)) },
         text = { Text(text = stringResource(id = R.string.error_message)) },
         confirmButton = {
-            TextButton(onClick = { acceptOption }) {
+            TextButton(onClick = { acceptOption() }) {
                 Text(stringResource(id = R.string.accept_button))
             }
         }
@@ -37,7 +37,7 @@ fun MySubmitButton(onClick: () -> Unit) {
         contentAlignment = Alignment.Center
     ) {
         TextButton(
-            onClick = { onClick },
+            onClick = { onClick() },
             modifier = Modifier
                 .padding(horizontal = Constants.PaddingSizes.L.dp)
                 .fillMaxWidth(fraction = 0.5f)

@@ -12,7 +12,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun SplashScreen(onClickGoToLogin: () -> Unit = {}){
     LaunchedEffect(Unit) {
-        delay(1000)
+        delay(1)
         onClickGoToLogin()
     }
 
