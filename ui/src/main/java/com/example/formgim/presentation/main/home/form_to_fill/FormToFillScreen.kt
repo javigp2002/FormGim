@@ -16,11 +16,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.formgim.presentation.main.home.components.form.ChooseQuestionTypeComposable
 
 @Composable
-fun FormToFillScreen(viewModel: FormToFillVm = hiltViewModel()) {
+fun FormToFillScreen(
+    formId: Int,
+    viewModel: FormToFillVm = hiltViewModel()
+) {
     val listFormState by viewModel.stateOfView.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.getListOfQuestionsFromFormId(1)
+        viewModel.getListOfQuestionsFromFormId(formId)
     }
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->

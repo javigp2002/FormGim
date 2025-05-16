@@ -18,7 +18,7 @@ import com.example.formgim.ui.theme.Constants
 
 @Composable
 fun HomeScreen(
-    goToDetail: () -> Unit = {},
+    goToDetail: (formId: Int) -> Unit = {},
     homeScreenViewmodel: HomeScreenViewmodel = hiltViewModel()
 ) {
     val homeListState by homeScreenViewmodel.listFormsState.collectAsState()
@@ -50,7 +50,7 @@ fun HomeScreen(
                         author = homeListState.forms[index].author,
                     ),
                     onClick = {
-                        goToDetail()
+                        goToDetail(homeListState.forms[index].id)
                     }
                 )
             }

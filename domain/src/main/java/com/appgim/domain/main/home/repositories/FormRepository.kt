@@ -7,4 +7,5 @@ interface FormRepository {
     suspend fun getActiveForms(): Result<List<HomeFormCard>>
 
     suspend fun getListOfQuestionsFromForm(): List<QuestionTypes>
+    suspend fun sendAnswers(formId: Int, answers: List<QuestionTypes>): Boolean
 }

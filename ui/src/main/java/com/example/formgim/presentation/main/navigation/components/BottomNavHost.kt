@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.formgim.presentation.main.home.HomeScreen
 import com.example.formgim.presentation.main.home.form_to_fill.FormToFillScreen
 import com.example.formgim.presentation.main.navigation.MainNavigationScreenNames
@@ -15,11 +16,22 @@ fun BottomNavHost(navController: NavHostController,
     NavHost(navController, startDestination = "HomeScreen") {
         composable(MainNavigationScreenNames.HomeScreen.name) {
             HomeScreen(
-                goToDetail = { navController.navigate(MainNavigationScreenNames.Detail.name) {} }
+                goToDetail = { formId ->
+                    navController.navigate(
+                        "${MainNavigationScreenNames.Detail.name}/$formId"
+                    ) {}
+                }
             )
         }
-        composable(MainNavigationScreenNames.Detail.name) {
-            FormToFillScreen()
+        composable(
+            route = "${MainNavigationScreenNames.Detail.name}/{formId}",
+            arguments = listOf(navArgument("formId") {
+                type = androidx.navigation.NavType.IntType
+            })
+        ) { backStackEntry ->
+            val formId = backStackEntry.arguments?.getInt("formId") ?: -1
+
+            FormToFillScreen(formId = formId)
         }
 
         composable(MainNavigationScreenNames.Settings.name) {

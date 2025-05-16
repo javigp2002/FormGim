@@ -67,5 +67,11 @@ class FormRepositoryImpl @Inject constructor() : FormRepository {
         )
     }
 
+    override suspend fun sendAnswers(formId: Int, answers: List<QuestionTypes>): Boolean =
+        withContext(Dispatchers.IO) {
+            println("Sending answers: $answers")
+
+            true
+        }
 
 }

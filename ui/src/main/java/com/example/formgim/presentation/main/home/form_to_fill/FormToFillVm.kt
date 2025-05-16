@@ -1,9 +1,11 @@
 package com.example.formgim.presentation.main.home.form_to_fill
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appgim.domain.main.home.models.form.QuestionTypes
 import com.appgim.domain.main.home.usecases.GetListOfQuestionsFromForm
+import com.appgim.domain.main.home.usecases.SendAnswers
 import com.example.formgim.presentation.main.home.form_to_fill.states.ListFormState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,8 +16,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FormToFillVm @Inject constructor(
-    private val getListOfQuestionsFromForm: GetListOfQuestionsFromForm
+    savedStateHandle: SavedStateHandle,
+    private val getListOfQuestionsFromForm: GetListOfQuestionsFromForm,
+    private val sendAnswers: SendAnswers
 ) : ViewModel() {
+    private val formId: Int = savedStateHandle["formId"] ?: throw IllegalArgumentException("formId is required")
 
     private val _stateOfView = MutableStateFlow<ListFormState>(ListFormState())
     val stateOfView: StateFlow<ListFormState> = _stateOfView.asStateFlow()
@@ -84,11 +89,12 @@ class FormToFillVm @Inject constructor(
     }
 
     fun submitValues() {
-        if (!checkAnswers()) {
-            _stateOfView.value = _stateOfView.value.copy(
-                error = true
-            )
-            return
+        viewModelScope.launch {
+            if (!checkAnswers()) {
+                _stateOfView.value = _stateOfView.value.copy(error = true)
+                return@launch
+            }
+            sendAnswers.run(formId = formId, _stateOfView.value.forms)
         }
     }
 
@@ -148,6 +154,4 @@ class FormToFillVm @Inject constructor(
     fun dismissDialog() {
         _stateOfView.value = _stateOfView.value.copy(error = false)
     }
-
-
 }
