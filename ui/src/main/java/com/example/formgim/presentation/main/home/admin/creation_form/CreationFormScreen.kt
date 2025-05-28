@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.formgim.presentation.main.home.admin.creation_form.component.ui.CreationFormComponents
 import com.example.formgim.presentation.main.home.admin.creation_form.states.ListCreationFormState
 import com.example.formgim.ui.theme.Constants
 
@@ -66,6 +67,10 @@ fun CreationFormContent(
                 value = state.description,
                 onValueChange = onDescriptionChange,
                 label = { Text("Descripción del formulario") }
+            )
+
+            CreationFormComponents(
+                onSaveClick = { textFields, questionTitle -> {} },
             )
         }
     }
