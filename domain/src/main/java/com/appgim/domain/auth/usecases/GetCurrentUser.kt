@@ -9,7 +9,10 @@ class GetCurrentUser @Inject constructor(
 ) {
 
     fun run(): Result<UserModel> {
-        val user = userRepository.getUser()
+        var user = userRepository.getUser()
+
+        user = UserModel(1, "John Doe", true) // Simulating a user for demonstration purposes
+
         return if (user != null) {
             Result.success(user)
         } else {

@@ -26,7 +26,7 @@ fun MainNavHostController(
                 },
                 goToCreationForm = {
                     navController.navigate(MainNavigationScreenNames.CreationForm.name) {
-                        popUpTo(MainNavigationScreenNames.HomeScreen.name) { inclusive = true }
+                        popUpTo(MainNavigationScreenNames.HomeScreen.name) { inclusive = false }
                     }
                 },
             )

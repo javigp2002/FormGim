@@ -27,6 +27,7 @@ fun HomeScreen(
 
     LaunchedEffect(Unit) {
         homeScreenViewmodel.updateListState()
+        homeScreenViewmodel.getUserIsAdmin()
     }
 
     Scaffold(
@@ -42,8 +43,10 @@ fun HomeScreen(
             if (homeListState.isAdmin) {
                 Button(
                     onClick = { goToCreationForm() },
-                    modifier = Modifier.padding(Constants.PaddingSizes.M.dp)
-                ) {}
+                    modifier = Modifier.padding(Constants.PaddingSizes.M.dp),
+                ) {
+                    Text("+")
+                }
             }
         }
     ) { innerPadding ->
