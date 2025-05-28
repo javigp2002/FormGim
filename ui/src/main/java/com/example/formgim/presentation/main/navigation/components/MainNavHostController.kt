@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.formgim.presentation.main.home.HomeScreen
+import com.example.formgim.presentation.main.home.admin.creation_form.CreationFormScreen
 import com.example.formgim.presentation.main.home.form_to_fill.FormToFillScreen
 import com.example.formgim.presentation.main.navigation.MainNavigationScreenNames
 
@@ -22,7 +23,12 @@ fun MainNavHostController(
                     navController.navigate(
                         "${MainNavigationScreenNames.Detail.name}/$formId"
                     ) {}
-                }
+                },
+                goToCreationForm = {
+                    navController.navigate(MainNavigationScreenNames.CreationForm.name) {
+                        popUpTo(MainNavigationScreenNames.HomeScreen.name) { inclusive = true }
+                    }
+                },
             )
         }
         composable(
@@ -34,6 +40,10 @@ fun MainNavHostController(
             val formId = backStackEntry.arguments?.getInt("formId") ?: -1
 
             FormToFillScreen(formId = formId)
+        }
+
+        composable(MainNavigationScreenNames.CreationForm.name) {
+            CreationFormScreen()
         }
 
         composable(MainNavigationScreenNames.Settings.name) {
