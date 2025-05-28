@@ -35,8 +35,6 @@ fun FormToFillScreen(
                     .padding(innerPadding.calculateTopPadding())
             )
         } else {
-
-
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
