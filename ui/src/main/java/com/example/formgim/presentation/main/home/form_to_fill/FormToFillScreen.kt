@@ -5,6 +5,7 @@ import MySubmitButton
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,42 +28,52 @@ fun FormToFillScreen(
     }
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(0.dp, innerPadding.calculateTopPadding(), 0.dp, 0.dp)
-        ) {
-            items(listFormState.forms.size) { index ->
-                ChooseQuestionTypeComposable(
-                    listFormState.forms[index],
-                    onAnswerChanged = { answer -> viewModel.updateAnswer(index, answer) },
-                    onMultipleChanged = { answer ->
-                        viewModel.updateMultipleSelection(
-                            index,
-                            answer
-                        )
-                    },
-                    onSingleChanged = { selectedOption: Int ->
-                        viewModel.updateSingleSelection(
-                            index,
-                            selectedOption
-                        )
-                    },
-                    onSliderChanged = { sliderValue: Float ->
-                        viewModel.updateSliderAnswer(
-                            index,
-                            sliderValue
-                        )
-                    }
-                )
-            }
-            item {
-                MySubmitButton { viewModel.submitValues() }
-            }
-        }
+        if (listFormState.isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding.calculateTopPadding())
+            )
+        } else {
 
-        if (listFormState.error) {
-            MyShowErrorDialog { viewModel.dismissDialog() }
+
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(0.dp, innerPadding.calculateTopPadding(), 0.dp, 0.dp)
+            ) {
+                items(listFormState.forms.size) { index ->
+                    ChooseQuestionTypeComposable(
+                        listFormState.forms[index],
+                        onAnswerChanged = { answer -> viewModel.updateAnswer(index, answer) },
+                        onMultipleChanged = { answer ->
+                            viewModel.updateMultipleSelection(
+                                index,
+                                answer
+                            )
+                        },
+                        onSingleChanged = { selectedOption: Int ->
+                            viewModel.updateSingleSelection(
+                                index,
+                                selectedOption
+                            )
+                        },
+                        onSliderChanged = { sliderValue: Float ->
+                            viewModel.updateSliderAnswer(
+                                index,
+                                sliderValue
+                            )
+                        }
+                    )
+                }
+                item {
+                    MySubmitButton { viewModel.submitValues() }
+                }
+            }
+
+            if (listFormState.error) {
+                MyShowErrorDialog { viewModel.dismissDialog() }
+            }
         }
     }
 
