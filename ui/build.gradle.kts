@@ -63,6 +63,8 @@ dependencies {
     // JSON serialization library, works with the Kotlin serialization plugin
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
 
+    implementation(libs.gson)
+
     // Hilt (DI)
     implementation(libs.androidx.hilt.android)
     kapt(libs.androidx.hilt.android.compiler)

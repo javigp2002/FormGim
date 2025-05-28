@@ -11,8 +11,10 @@ import com.example.formgim.presentation.main.home.form_to_fill.FormToFillScreen
 import com.example.formgim.presentation.main.navigation.MainNavigationScreenNames
 
 @Composable
-fun BottomNavHost(navController: NavHostController,
-                  logout: ()->Unit = {}) {
+fun MainNavHostController(
+    navController: NavHostController,
+    logout: () -> Unit = {}
+) {
     NavHost(navController, startDestination = "HomeScreen") {
         composable(MainNavigationScreenNames.HomeScreen.name) {
             HomeScreen(
