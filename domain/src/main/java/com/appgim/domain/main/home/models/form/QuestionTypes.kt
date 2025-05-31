@@ -16,4 +16,47 @@ sealed class QuestionTypes(
 
     data class SingleOption(val singleOptionModel: SingleOptionModel) :
         QuestionTypes(singleOptionModel.id, singleOptionModel.question, singleOptionModel.error)
+
+
+    object Creation {
+
+        fun createQuestionType(
+            id: Int,
+            questionTitle: String,
+            values: List<String>,
+            type: TypeQuestionCreationForm
+        ): QuestionTypes {
+            return when (type) {
+                TypeQuestionCreationForm.TEXTBOX -> TextBox(
+                    TextBoxModel(
+                        id = id,
+                        title = questionTitle
+                    )
+                )
+
+                TypeQuestionCreationForm.SLIDER -> Slider(
+                    SliderBoxModel(
+                        id = id,
+                        question = questionTitle
+                    )
+                )
+
+                TypeQuestionCreationForm.CHECKBOX -> Multiple(
+                    MultipleOptionModel(
+                        id = id,
+                        question = questionTitle,
+                        opciones = values
+                    )
+                )
+
+                TypeQuestionCreationForm.RADIOBOX -> SingleOption(
+                    SingleOptionModel(
+                        id = id,
+                        question = questionTitle,
+                        opciones = values
+                    )
+                )
+            }
+        }
+    }
 }

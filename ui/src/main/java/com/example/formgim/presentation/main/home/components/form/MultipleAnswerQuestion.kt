@@ -19,7 +19,8 @@ fun MultipleOptionQuestion(
     options: List<String>,
     selected: Set<Int>,
     onSeleccionChange: (Set<Int>) -> Unit,
-    isError: Boolean
+    isError: Boolean,
+    enabled: Boolean = true
 ) {
     Column(modifier = Modifier.padding(Constants.PaddingSizes.L.dp)) {
         Text(text = questionTitle)
@@ -40,8 +41,8 @@ fun MultipleOptionQuestion(
                         )
                     } else {
                         CheckboxDefaults.colors()
-                    }
-
+                    },
+                    enabled = enabled
                 )
                 Text(text = opcion)
             }

@@ -19,7 +19,8 @@ fun SingleOptionAnswerQuestion(
     options: List<String>,
     selection: Int,
     onSeleccionChange: (Int) -> Unit,
-    isError: Boolean
+    isError: Boolean,
+    enabled: Boolean = true
 ) {
     Column(modifier = Modifier.padding(Constants.PaddingSizes.L.dp)) {
         Text(text = questionTitle)
@@ -35,7 +36,8 @@ fun SingleOptionAnswerQuestion(
                         )
                     } else {
                         RadioButtonDefaults.colors()
-                    }
+                    },
+                    enabled = enabled
                 )
                 Text(text = opcion)
             }

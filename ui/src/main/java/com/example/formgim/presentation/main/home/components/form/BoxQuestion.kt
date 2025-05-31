@@ -13,7 +13,10 @@ import androidx.compose.ui.unit.dp
 import com.example.formgim.ui.theme.Constants
 
 @Composable
-fun BoxQuestion(questionTitle: String, value: String, onTextoChange: (String) -> Unit, isError: Boolean) {
+fun BoxQuestion(
+    questionTitle: String, value: String, onTextoChange: (String) -> Unit, isError: Boolean,
+    readonly: Boolean = true
+) {
     Column(modifier = Modifier.padding(Constants.PaddingSizes.L.dp)) {
         Text(text = questionTitle)
         Spacer(modifier = Modifier.height(Constants.PaddingSizes.M.dp))
@@ -22,7 +25,8 @@ fun BoxQuestion(questionTitle: String, value: String, onTextoChange: (String) ->
             onValueChange = onTextoChange,
             label = { Text("Caja de texto") },
             modifier = Modifier.fillMaxWidth(),
-            isError = isError
+            isError = isError,
+            readonly = readonly
         )
     }
 }

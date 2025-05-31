@@ -1,5 +1,6 @@
 package com.example.formgim.presentation.main.home.admin.creation_form
 
+import MyBorderBox
 import MyOutlinedTextField
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,8 +16,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.appgim.domain.main.home.models.form.TypeQuestionCreationForm
 import com.example.formgim.presentation.main.home.admin.creation_form.component.ui.CreationFormComponents
 import com.example.formgim.presentation.main.home.admin.creation_form.states.ListCreationFormState
+import com.example.formgim.presentation.main.home.components.form.ChooseQuestionTypeComposable
 import com.example.formgim.ui.theme.Constants
 
 @Composable
@@ -44,6 +47,9 @@ fun CreationFormScreen(viewModel: CreationFormVM = hiltViewModel()) {
                 state = listFormState,
                 onTitleChange = { newTitle -> viewModel.onTitleChange(newTitle) },
                 onDescriptionChange = { newDescription -> viewModel.onDescriptionChange(newDescription) },
+                onSaveClick = { textFields, questionTitle, questionType ->
+                    viewModel.onSaveClick(textFields, questionTitle, questionType)
+                }
             )
         }
     }
@@ -54,6 +60,7 @@ fun CreationFormContent(
     state: ListCreationFormState,
     onTitleChange: (String) -> Unit,
     onDescriptionChange: (String) -> Unit,
+    onSaveClick: (List<String>, String, TypeQuestionCreationForm) -> Unit
 ) {
     LazyColumn {
         item {
@@ -69,8 +76,22 @@ fun CreationFormContent(
                 label = { Text("Descripción del formulario") }
             )
 
+            state.listQuestion.forEachIndexed { index, question ->
+
+                MyBorderBox {
+                    ChooseQuestionTypeComposable(
+                        question,
+                        onAnswerChanged = { },
+                        onMultipleChanged = { },
+                        onSingleChanged = { },
+                        onSliderChanged = { }
+                    )
+                }
+
+            }
+
             CreationFormComponents(
-                onSaveClick = { textFields, questionTitle -> {} },
+                onSaveClick = onSaveClick,
             )
         }
     }

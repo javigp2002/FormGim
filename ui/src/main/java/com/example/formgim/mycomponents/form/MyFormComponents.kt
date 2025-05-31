@@ -64,7 +64,8 @@ fun MyOutlinedTextField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     label: @Composable (() -> Unit)? = null,
-    isError: Boolean = false
+    isError: Boolean = false,
+    readonly: Boolean = false
 ) {
     OutlinedTextField(
         value = value,
@@ -76,5 +77,6 @@ fun MyOutlinedTextField(
             fontSize = MaterialTheme.typography.bodyLarge.fontSize
         ),
         isError = isError,
+        readOnly = readonly,
     )
 }

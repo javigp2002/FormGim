@@ -19,7 +19,8 @@ import com.example.formgim.ui.theme.Constants
 fun SliderQuestion(
     questionTitle: String, value: Float, onValorChange: (Float) -> Unit,
     valueRange: ClosedFloatingPointRange<Float> = 0f..100f,
-    steps: Int = 9
+    steps: Int = 9,
+    enabled: Boolean = true
 ) {
     Column(modifier = Modifier.padding(Constants.PaddingSizes.L.dp)) {
         Text(text = questionTitle)
@@ -30,6 +31,7 @@ fun SliderQuestion(
             valueRange = valueRange,
             modifier = Modifier.fillMaxWidth(),
             steps = steps,
+            enabled = enabled
         )
         Row(
             modifier = Modifier.fillMaxWidth(),
