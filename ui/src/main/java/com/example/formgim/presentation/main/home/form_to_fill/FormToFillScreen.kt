@@ -1,6 +1,6 @@
 package com.example.formgim.presentation.main.home.form_to_fill
 
-import MyShowErrorDialog
+import MyAlertDialog
 import MySubmitButton
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -70,7 +70,9 @@ fun FormToFillScreen(
             }
 
             if (listFormState.error) {
-                MyShowErrorDialog { viewModel.dismissDialog() }
+                MyAlertDialog(
+                    acceptOption = { viewModel.dismissDialog() },
+                )
             }
         }
     }

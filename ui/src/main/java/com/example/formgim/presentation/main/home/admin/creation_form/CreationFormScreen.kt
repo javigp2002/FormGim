@@ -1,12 +1,18 @@
 package com.example.formgim.presentation.main.home.admin.creation_form
 
+import MyAlertDialog
 import MyBorderBox
 import MyOutlinedTextField
+import MyTopAppBar
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -24,7 +30,7 @@ import com.example.formgim.presentation.main.home.components.form.ChooseQuestion
 import com.example.formgim.ui.theme.Constants
 
 @Composable
-fun CreationFormScreen(viewModel: CreationFormVM = hiltViewModel()) {
+fun CreationFormScreen(onBack: () -> Unit, viewModel: CreationFormVM = hiltViewModel()) {
     val listFormState by viewModel.stateOfView.collectAsState()
 
     LaunchedEffect(Unit) {}
@@ -35,7 +41,23 @@ fun CreationFormScreen(viewModel: CreationFormVM = hiltViewModel()) {
             .padding(
                 horizontal = Constants.PaddingSizes.M.dp,
                 vertical = Constants.PaddingSizes.L.dp
+            ),
+        topBar = {
+            MyTopAppBar(
+                title = "Creación de formulario",
+                backEvent = { onBack() },
+                actions = {
+                    IconButton(
+                        onClick = { viewModel.saveForm() }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Save,
+                            contentDescription = "Guardar Formulario"
+                        )
+                    }
+                }
             )
+        }
     ) { innerPadding ->
         if (listFormState.isLoading) {
             CircularProgressIndicator(
@@ -43,6 +65,22 @@ fun CreationFormScreen(viewModel: CreationFormVM = hiltViewModel()) {
                     .fillMaxSize()
                     .padding(innerPadding.calculateTopPadding())
             )
+        } else if (listFormState.showAlertDialog) {
+            if (listFormState.hasBeenSavedProperly) {
+                MyAlertDialog(
+                    acceptOption = { onBack() },
+                    title = "Éxito",
+                    message = "El formulario se ha guardado correctamente."
+                )
+            } else {
+                MyAlertDialog(
+                    acceptOption = { onBack() },
+                    title = "Error",
+                    message = "Ha ocurrido un error al guardar el formulario. Por favor, inténtelo de nuevo."
+                )
+            }
+
+
         } else {
             CreationFormContent(
                 state = listFormState,
@@ -51,7 +89,8 @@ fun CreationFormScreen(viewModel: CreationFormVM = hiltViewModel()) {
                 onSaveClick = { textFields, questionTitle, questionType ->
                     viewModel.onSaveClick(textFields, questionTitle, questionType)
                 },
-                onClickAddNew = { viewModel.onClickAddNew() }
+                onClickAddNew = { viewModel.onClickAddNew() },
+                modifier = Modifier.padding(top = innerPadding.calculateTopPadding())
             )
         }
     }
@@ -63,9 +102,12 @@ fun CreationFormContent(
     onTitleChange: (String) -> Unit,
     onDescriptionChange: (String) -> Unit,
     onSaveClick: (List<String>, String, TypeQuestionCreationForm) -> Unit,
-    onClickAddNew: () -> Unit
+    onClickAddNew: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    LazyColumn {
+    LazyColumn(
+        modifier = modifier
+    ) {
         item {
             MyOutlinedTextField(
                 value = state.title,

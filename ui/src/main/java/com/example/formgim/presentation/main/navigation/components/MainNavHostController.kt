@@ -43,7 +43,9 @@ fun MainNavHostController(
         }
 
         composable(MainNavigationScreenNames.CreationForm.name) {
-            CreationFormScreen()
+            CreationFormScreen(
+                onBack = { navController.popBackStack() },
+            )
         }
 
         composable(MainNavigationScreenNames.Settings.name) {

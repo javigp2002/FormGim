@@ -18,11 +18,15 @@ import com.example.formgim.R
 import com.example.formgim.ui.theme.Constants
 
 @Composable
-fun MyShowErrorDialog(acceptOption: () -> Unit) {
+fun MyAlertDialog(
+    acceptOption: () -> Unit,
+    title: String = stringResource(id = R.string.error_title),
+    message: String = stringResource(id = R.string.error_message)
+) {
     AlertDialog(
         onDismissRequest = { acceptOption() },
-        title = { Text(text = stringResource(id = R.string.error_title)) },
-        text = { Text(text = stringResource(id = R.string.error_message)) },
+        title = { Text(text = title) },
+        text = { Text(text = message) },
         confirmButton = {
             TextButton(onClick = { acceptOption() }) {
                 Text(stringResource(id = R.string.accept_button))

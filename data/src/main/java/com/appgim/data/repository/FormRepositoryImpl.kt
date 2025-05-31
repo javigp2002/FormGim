@@ -1,5 +1,6 @@
 package com.appgim.data.repository
 
+import com.appgim.domain.main.home.models.FormData
 import com.appgim.domain.main.home.models.HomeFormCard
 import com.appgim.domain.main.home.models.form.MultipleOptionModel
 import com.appgim.domain.main.home.models.form.QuestionTypes
@@ -74,4 +75,11 @@ class FormRepositoryImpl @Inject constructor() : FormRepository {
             true
         }
 
+    override suspend fun saveNewForm(formData: FormData): Boolean {
+        return withContext(Dispatchers.IO) {
+            println("Saving new form: $formData")
+            // Here you would typically save the form data to a database or remote server
+            true // Return true if the save operation was successful
+        }
+    }
 }
