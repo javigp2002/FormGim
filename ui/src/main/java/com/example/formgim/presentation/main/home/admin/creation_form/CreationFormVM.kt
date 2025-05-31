@@ -35,6 +35,15 @@ class CreationFormVM @Inject constructor(
             type = type, values = values
         )
 
-        _stateOfView.value = _stateOfView.value.copy(listQuestion = _stateOfView.value.listQuestion + questionType)
+        _stateOfView.value = _stateOfView.value.copy(
+            listQuestion = _stateOfView.value.listQuestion + questionType,
+            isAddingNewQuestion = false
+        )
+    }
+
+    fun onClickAddNew() {
+        _stateOfView.value = _stateOfView.value.copy(
+            isAddingNewQuestion = true,
+        )
     }
 }

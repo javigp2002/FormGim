@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -49,7 +50,8 @@ fun CreationFormScreen(viewModel: CreationFormVM = hiltViewModel()) {
                 onDescriptionChange = { newDescription -> viewModel.onDescriptionChange(newDescription) },
                 onSaveClick = { textFields, questionTitle, questionType ->
                     viewModel.onSaveClick(textFields, questionTitle, questionType)
-                }
+                },
+                onClickAddNew = { viewModel.onClickAddNew() }
             )
         }
     }
@@ -60,7 +62,8 @@ fun CreationFormContent(
     state: ListCreationFormState,
     onTitleChange: (String) -> Unit,
     onDescriptionChange: (String) -> Unit,
-    onSaveClick: (List<String>, String, TypeQuestionCreationForm) -> Unit
+    onSaveClick: (List<String>, String, TypeQuestionCreationForm) -> Unit,
+    onClickAddNew: () -> Unit
 ) {
     LazyColumn {
         item {
@@ -90,9 +93,22 @@ fun CreationFormContent(
 
             }
 
-            CreationFormComponents(
-                onSaveClick = onSaveClick,
-            )
+            if (state.isAddingNewQuestion) {
+                CreationFormComponents(
+                    onSaveClick = onSaveClick,
+                )
+            } else {
+                TextButton(
+                    modifier = Modifier
+                        .padding(vertical = Constants.PaddingSizes.M.dp),
+                    onClick = { onClickAddNew() }
+                ) {
+                    Text("Añadir nueva pregunta")
+                }
+            }
+
+
+
         }
     }
 }
