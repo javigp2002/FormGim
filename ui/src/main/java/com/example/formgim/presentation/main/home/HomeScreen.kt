@@ -3,7 +3,10 @@ package com.example.formgim.presentation.main.home
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -42,11 +45,14 @@ fun HomeScreen(
         },
         floatingActionButton = {
             if (homeListState.isAdmin) {
-                Button(
+                FloatingActionButton(
                     onClick = { goToCreationForm() },
                     modifier = Modifier.padding(Constants.PaddingSizes.M.dp),
                 ) {
-                    Text("+")
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Add Form"
+                    )
                 }
             }
         }
