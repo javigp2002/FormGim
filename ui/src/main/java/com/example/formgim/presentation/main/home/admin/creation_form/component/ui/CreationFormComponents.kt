@@ -1,7 +1,7 @@
 package com.example.formgim.presentation.main.home.admin.creation_form.component.ui
 
-import MyDropdownMenu
 import MyOutlinedTextField
+import SingleChoiceSegmentedButton
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -106,6 +106,13 @@ fun CreationFormComponents(
     var questionType by remember { mutableStateOf(TypeQuestionCreationForm.TEXTBOX) }
     var error by remember { mutableStateOf("") }
 
+    val optionsOfNewQuestion: Map<String, TypeQuestionCreationForm> = mapOf(
+        stringResource(R.string.textbox) to TypeQuestionCreationForm.TEXTBOX,
+        stringResource(R.string.checkbox) to TypeQuestionCreationForm.CHECKBOX,
+        stringResource(R.string.radiobox) to TypeQuestionCreationForm.RADIOBOX,
+        stringResource(R.string.slider) to TypeQuestionCreationForm.SLIDER
+    )
+
     fun changeType(newType: TypeQuestionCreationForm) {
         if (questionType == newType) return
         questionType = newType
@@ -134,16 +141,14 @@ fun CreationFormComponents(
 
 
 
-            MyDropdownMenu(
-                opciones = TypeQuestionCreationForm.entries.map { it.name },
+            SingleChoiceSegmentedButton(
+                options = optionsOfNewQuestion.keys.map { it },
                 onSeleccionChange = { selectedOption ->
-                    changeType(TypeQuestionCreationForm.valueOf(selectedOption))
+                    val type = optionsOfNewQuestion.entries.first { it.key == selectedOption }
+                    changeType(type.value)
                 },
-                modifier = Modifier
-                    .fillMaxWidth(),
-                label = stringResource(R.string.tipo_pregunta)
+                modifier = Modifier.fillMaxWidth(),
             )
-
 
             Spacer(modifier = Modifier.padding(top = Constants.PaddingSizes.M.dp))
 

@@ -2,7 +2,11 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -54,6 +58,35 @@ fun MyDropdownMenu(
                     }
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun SingleChoiceSegmentedButton(
+    options: List<String>,
+    onSeleccionChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+
+    var selected by remember { mutableStateOf(options[0]) }
+
+    SingleChoiceSegmentedButtonRow(
+        modifier
+    ) {
+        options.forEachIndexed { index, label ->
+            SegmentedButton(
+                shape = SegmentedButtonDefaults.itemShape(
+                    index = index,
+                    count = options.size
+                ),
+                onClick = {
+                    selected = label
+                    onSeleccionChange(label)
+                },
+                selected = selected == label,
+                label = { Text(label, maxLines = 1, style = MaterialTheme.typography.bodySmall) }
+            )
         }
     }
 }

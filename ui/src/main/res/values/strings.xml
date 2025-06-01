@@ -14,6 +14,10 @@
     <string name="guardar_pregunta">Guardar Pregunta</string>
     <string name="error_titulo_pregunta">No ha puesto ningún titulo en la nueva pregunta</string>
     <string name="error_opciones_pregunta">Debe poner opciones no vacías</string>
+    <string name="textbox">Caja Texto\n</string>
+    <string name="checkbox">Respuesta Múltiple</string>
+    <string name="radiobox">Radio</string>
+    <string name="slider">Slider</string>
 
 
 </resources>
