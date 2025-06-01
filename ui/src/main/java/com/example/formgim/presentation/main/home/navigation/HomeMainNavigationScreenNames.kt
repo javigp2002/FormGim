@@ -10,5 +10,6 @@ enum class HomeTab(
     val route: String
 ) {
     NewForms("New Forms", "${HOME_SCREEN_ROUTE}/new_forms"),
+    DoneForms("Done Forms", "${HOME_SCREEN_ROUTE}/done_forms"),
     MyForms("My Forms", "${HOME_SCREEN_ROUTE}/my_forms"),
 }

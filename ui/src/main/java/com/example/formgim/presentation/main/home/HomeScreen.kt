@@ -33,6 +33,7 @@ import com.example.formgim.ui.theme.Constants
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+    goToDetail: (formId: Int) -> Unit = {},
     homeScreenViewmodel: HomeScreenViewmodel = hiltViewModel(),
     goToCreationForm: () -> Unit = {}
 ) {
@@ -70,6 +71,7 @@ fun HomeScreen(
         }
     ) { contentPadding ->
         if (homeListState.isLoading) {
+            // Show loading indicator
             Text(
                 text = "Loading...",
                 modifier = Modifier.padding(contentPadding),
@@ -96,7 +98,7 @@ fun HomeScreen(
                     )
                 }
             }
-            HomeTabHost(navController, startDestination)
+            HomeTabHost(navController, startDestination, homeListState.isAdmin, goToDetail)
         }
 
     }
