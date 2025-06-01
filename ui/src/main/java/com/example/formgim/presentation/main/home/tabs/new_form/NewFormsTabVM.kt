@@ -1,4 +1,4 @@
-package com.example.formgim.presentation.main.home.tabs
+package com.example.formgim.presentation.main.home.tabs.new_form
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MyFormsTabVm @Inject constructor(
+class NewFormsTabVM @Inject constructor(
     private val getActiveForms: GetActiveForms,
 ) : ViewModel() {
     private val _listFormsState = MutableStateFlow(ListHomeState())
@@ -23,8 +23,9 @@ class MyFormsTabVm @Inject constructor(
         viewModelScope.launch {
             val listFormCards: List<HomeFormCard> = getActiveForms.run()
             _listFormsState.value = _listFormsState.value.copy(
-                forms = listFormCards,
+                forms = listOf(listFormCards.first()),
             )
         }
     }
+
 }

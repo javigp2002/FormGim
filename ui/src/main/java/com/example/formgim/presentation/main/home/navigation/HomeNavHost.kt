@@ -6,9 +6,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.formgim.presentation.main.home.tabs.MyFormsTab
-import com.example.formgim.presentation.main.home.tabs.NewFormsTab
 import com.example.formgim.presentation.main.home.tabs.done_form.DoneForm
+import com.example.formgim.presentation.main.home.tabs.my_form.MyFormsTab
+import com.example.formgim.presentation.main.home.tabs.new_form.NewFormsTab
 
 @Composable
 fun HomeTabHost(
