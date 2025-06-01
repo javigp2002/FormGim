@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,7 +37,7 @@ fun HomeScreen(
             Text(
                 text = "Home",
                 modifier = Modifier.padding(Constants.PaddingSizes.M.dp),
-                style = androidx.compose.material3.MaterialTheme.typography.titleLarge
+                style = typography.displaySmall
             )
         },
         floatingActionButton = {

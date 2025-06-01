@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
-            FormGimTheme {
+            FormGimTheme(dynamicColor = false) {
                 val navController = rememberNavController()
                 Navigation(navController = navController)
             }

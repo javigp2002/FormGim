@@ -4,6 +4,8 @@ import MyAlertDialog
 import MyBorderBox
 import MyOutlinedTextField
 import MyTopAppBar
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -109,17 +111,28 @@ fun CreationFormContent(
         modifier = modifier
     ) {
         item {
-            MyOutlinedTextField(
-                value = state.title,
-                onValueChange = onTitleChange,
-                label = { Text("Título del formulario") }
-            )
+            MyBorderBox {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(Constants.PaddingSizes.M.dp)
+                ) {
+                    MyOutlinedTextField(
+                        value = state.title,
+                        onValueChange = onTitleChange,
+                        label = { Text("Título del formulario") }
+                    )
 
-            MyOutlinedTextField(
-                value = state.description,
-                onValueChange = onDescriptionChange,
-                label = { Text("Descripción del formulario") }
-            )
+                    MyOutlinedTextField(
+                        value = state.description,
+                        onValueChange = onDescriptionChange,
+                        label = { Text("Descripción del formulario") }
+                    )
+                }
+
+            }
+
+            Spacer(modifier = Modifier.padding(vertical = Constants.PaddingSizes.M.dp))
 
             state.listQuestion.forEachIndexed { index, question ->
 
