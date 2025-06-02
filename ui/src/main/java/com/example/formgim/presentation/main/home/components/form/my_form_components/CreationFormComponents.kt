@@ -1,4 +1,4 @@
-package com.example.formgim.presentation.main.home.admin.creation_form.component.ui
+package com.example.formgim.presentation.main.home.components.form.my_form_components
 
 import MyOutlinedTextField
 import SingleChoiceSegmentedButton

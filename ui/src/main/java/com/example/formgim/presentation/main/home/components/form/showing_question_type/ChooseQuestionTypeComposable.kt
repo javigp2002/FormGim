@@ -1,4 +1,4 @@
-package com.example.formgim.presentation.main.home.components.form
+package com.example.formgim.presentation.main.home.components.form.showing_question_type
 
 import androidx.compose.runtime.Composable
 import com.appgim.domain.main.home.models.form.QuestionTypes

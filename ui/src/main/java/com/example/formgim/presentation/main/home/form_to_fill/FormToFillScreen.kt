@@ -14,7 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.formgim.presentation.main.home.components.form.ChooseQuestionTypeComposable
+import com.example.formgim.presentation.main.home.components.form.showing_question_type.ChooseQuestionTypeComposable
 
 @Composable
 fun FormToFillScreen(

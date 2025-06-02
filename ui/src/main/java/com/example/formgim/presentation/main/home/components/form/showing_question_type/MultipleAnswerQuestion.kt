@@ -1,4 +1,4 @@
-package com.example.formgim.presentation.main.home.components.form
+package com.example.formgim.presentation.main.home.components.form.showing_question_type
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

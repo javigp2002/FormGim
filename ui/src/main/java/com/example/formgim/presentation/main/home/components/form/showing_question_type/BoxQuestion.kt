@@ -1,4 +1,4 @@
-package com.example.formgim.presentation.main.home.components.form
+package com.example.formgim.presentation.main.home.components.form.showing_question_type
 
 import MyOutlinedTextField
 import androidx.compose.foundation.layout.Column
