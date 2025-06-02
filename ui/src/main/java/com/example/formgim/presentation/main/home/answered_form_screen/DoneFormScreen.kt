@@ -7,7 +7,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -22,10 +21,6 @@ fun DoneFormScreen(
     viewModel: DoneFormVM = hiltViewModel()
 ) {
     val listFormState by viewModel.stateOfView.collectAsState()
-
-    LaunchedEffect(Unit) {
-        viewModel.getListOfQuestionsFromFormId(formId)
-    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),

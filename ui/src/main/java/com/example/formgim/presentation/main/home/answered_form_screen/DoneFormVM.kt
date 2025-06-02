@@ -23,10 +23,20 @@ class DoneFormVM @Inject constructor(
     val stateOfView: StateFlow<DataFormState> = _stateOfView.asStateFlow()
 
 
+    init {
+        _stateOfView.value = _stateOfView.value.copy(
+            isLoading = true
+        )
+        getListOfQuestionsFromFormId(formId)
+    }
+
     fun getListOfQuestionsFromFormId(id: Int) {
         viewModelScope.launch {
             getListOfAnswers.run(id).let { questions ->
-                _stateOfView.value = _stateOfView.value.copy(forms = questions)
+                _stateOfView.value = _stateOfView.value.copy(
+                    forms = questions,
+                    isLoading = false
+                )
             }
         }
     }

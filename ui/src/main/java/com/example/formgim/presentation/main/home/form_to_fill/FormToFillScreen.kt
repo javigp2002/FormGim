@@ -12,7 +12,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -30,9 +29,6 @@ fun FormToFillScreen(
 ) {
     val listFormState by viewModel.stateOfView.collectAsState()
 
-    LaunchedEffect(Unit) {
-        viewModel.getListOfQuestionsFromFormId(formId)
-    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -66,9 +62,12 @@ fun FormToFillScreen(
                     .fillMaxSize()
                     .padding(0.dp, innerPadding.calculateTopPadding(), 0.dp, 0.dp)
             ) {
-                items(listFormState.forms.size) { index ->
+                items(
+                    listFormState.forms.size,
+                    key = { listFormState.forms[it].id }) { index ->
+                    val formItem = listFormState.forms[index]
                     ChooseQuestionTypeComposable(
-                        listFormState.forms[index],
+                        formItem,
                         onAnswerChanged = { answer -> viewModel.updateAnswer(index, answer) },
                         onMultipleChanged = { answer ->
                             viewModel.updateMultipleSelection(

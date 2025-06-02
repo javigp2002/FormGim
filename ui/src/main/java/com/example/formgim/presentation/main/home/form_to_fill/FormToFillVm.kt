@@ -26,11 +26,23 @@ class FormToFillVm @Inject constructor(
     val stateOfView: StateFlow<ListFormState> = _stateOfView.asStateFlow()
 
 
+    init {
+        _stateOfView.value = _stateOfView.value.copy(
+            isLoading = true
+        )
+        getListOfQuestionsFromFormId(formId)
+    }
+
     fun getListOfQuestionsFromFormId(id: Int) {
         viewModelScope.launch {
             getListOfQuestionsFromForm.run(id).let { questions ->
-                _stateOfView.value = _stateOfView.value.copy(forms = questions)
+                _stateOfView.value = _stateOfView.value.copy(
+                    forms = questions,
+                    isLoading = false
+                )
+
             }
+
         }
     }
 
