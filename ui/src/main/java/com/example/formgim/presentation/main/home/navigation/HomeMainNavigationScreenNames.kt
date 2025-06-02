@@ -3,7 +3,7 @@ package com.example.formgim.presentation.main.home.navigation
 import com.example.formgim.presentation.main.navigation.MainNavigationScreenNames
 
 
-val HOME_SCREEN_ROUTE = MainNavigationScreenNames.Detail.name
+val HOME_SCREEN_ROUTE = MainNavigationScreenNames.HomeScreen.name
 
 enum class HomeTab(
     val label: String,

@@ -26,7 +26,7 @@ fun BoxQuestion(
             label = { Text("Caja de texto") },
             modifier = Modifier.fillMaxWidth(),
             isError = isError,
-            readonly = readonly
+            readonly = readonly,
         )
     }
 }

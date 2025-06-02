@@ -18,6 +18,9 @@
     <string name="checkbox">Respuesta Múltiple</string>
     <string name="radiobox">Radio</string>
     <string name="slider">Slider</string>
+    <string name="form_to_fill_perfecto">¡Perfecto!</string>
+    <string name="guardado_con_exito">Formulario guardado con éxito</string>
+    <string name="form_to_fill">Formulario</string>
 
 
 </resources>

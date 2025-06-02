@@ -16,6 +16,8 @@ fun HomeTabHost(
     startDestination: HomeTab,
     isAdmin: Boolean,
     goToDetail: (formId: Int) -> Unit,
+    goToDoneForm: (formId: Int) -> Unit,
+    goToFormStats: (formId: Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     NavHost(
@@ -31,13 +33,13 @@ fun HomeTabHost(
                     )
 
                     HomeTab.MyForms -> MyFormsTab(
-                        goToDetail = goToDetail,
+                        goToDetail = goToFormStats,
                         modifier = modifier.fillMaxSize()
                     )
 
                     HomeTab.DoneForms -> if (isAdmin)
                         DoneForm(
-                            goToDetail = goToDetail,
+                            goToDetail = goToDoneForm,
                             modifier = modifier.fillMaxSize()
                         )
                     else {

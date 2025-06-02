@@ -21,7 +21,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.formgim.ui.theme.Constants
 
 @Composable
-fun DataFormScreen(onBack: () -> Unit, viewModel: DataFormVM = hiltViewModel()) {
+fun DataFormScreen(
+    onBack: () -> Unit,
+    formId: Int,
+    viewModel: DataFormVM = hiltViewModel()
+) {
     val listFormState by viewModel.stateOfView.collectAsState()
 
     LaunchedEffect(Unit) {}

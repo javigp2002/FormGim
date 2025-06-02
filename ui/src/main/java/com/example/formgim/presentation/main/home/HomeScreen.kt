@@ -35,7 +35,10 @@ import com.example.formgim.ui.theme.Constants
 fun HomeScreen(
     goToDetail: (formId: Int) -> Unit = {},
     homeScreenViewmodel: HomeScreenViewmodel = hiltViewModel(),
-    goToCreationForm: () -> Unit = {}
+    goToCreationForm: () -> Unit = {},
+    goToDoneForm: (formId: Int) -> Unit = {},
+    goToFormStats: (formId: Int) -> Unit = {},
+
 ) {
     val homeListState by homeScreenViewmodel.listFormsState.collectAsState()
     val navController = rememberNavController()
@@ -98,7 +101,12 @@ fun HomeScreen(
                     )
                 }
             }
-            HomeTabHost(navController, startDestination, homeListState.isAdmin, goToDetail)
+            HomeTabHost(
+                navController, startDestination, homeListState.isAdmin,
+                goToDetail = goToDetail,
+                goToDoneForm = goToDoneForm,
+                goToFormStats = goToFormStats
+            )
         }
 
     }

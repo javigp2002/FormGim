@@ -142,7 +142,8 @@ fun CreationFormContent(
                         onAnswerChanged = { },
                         onMultipleChanged = { },
                         onSingleChanged = { },
-                        onSliderChanged = { }
+                        onSliderChanged = { },
+                        readonly = true,
                     )
                 }
 

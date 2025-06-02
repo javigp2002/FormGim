@@ -95,6 +95,7 @@ class FormToFillVm @Inject constructor(
                 return@launch
             }
             sendAnswers.run(formId = formId, _stateOfView.value.forms)
+            _stateOfView.value = _stateOfView.value.copy(showAlertDialog = true)
         }
     }
 
