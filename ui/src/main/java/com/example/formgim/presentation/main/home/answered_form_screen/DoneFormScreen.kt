@@ -13,7 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.formgim.presentation.main.home.components.form.showing_question_type.ChooseQuestionTypeComposable
+import com.example.formgim.presentation.main.home.components.form.data_components.ChooseDataComposable
 
 @Composable
 fun DoneFormScreen(
@@ -49,9 +49,8 @@ fun DoneFormScreen(
                     .padding(0.dp, innerPadding.calculateTopPadding(), 0.dp, 0.dp)
             ) {
                 items(listFormState.forms.size) { index ->
-                    ChooseQuestionTypeComposable(
-                        listFormState.forms[index],
-                        readonly = true
+                    ChooseDataComposable(
+                        listFormState.forms[index]
                     )
                 }
             }
