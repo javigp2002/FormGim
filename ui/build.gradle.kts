@@ -10,6 +10,7 @@ plugins {
 }
 
 val serverClientId: String = gradleLocalProperties(rootDir, providers).getProperty("server_client_id")
+val webClientId: String = gradleLocalProperties(rootDir, providers).getProperty("web_client_id")
 
 android {
     namespace = "com.example.formgim"
@@ -17,6 +18,7 @@ android {
     defaultConfig {
         minSdk = 34
         buildConfigField("String", "SERVER_CLIENT_ID", "\"$serverClientId\"")
+        buildConfigField("String", "WEB_CLIENT_ID", "\"$webClientId\"")
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
