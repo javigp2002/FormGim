@@ -2,22 +2,20 @@ package com.example.formgim.presentation.auth
 
 import android.content.Context
 import android.util.Log
-import androidx.lifecycle.ViewModel
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
-import androidx.credentials.GetCredentialResponse
+import androidx.credentials.exceptions.GetCredentialException
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.formgim.BuildConfig
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
-import com.android.identity.credential.CredentialRequest
-import androidx.credentials.CustomCredential
-import androidx.credentials.exceptions.GetCredentialException
-import androidx.lifecycle.viewModelScope
-import com.appgim.domain.auth.usecases.GoogleSignInUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 
+@HiltViewModel
 class LoginViewModel : ViewModel() {
 //    private lateinit var credentialManager: CredentialManager
     private lateinit var signInUseCase : GoogleSignInUseCase
