@@ -5,5 +5,7 @@ import com.appgim.domain.main.home.models.form.QuestionTypes
 data class ListFormState(
     var isLoading: Boolean = false,
     var error: Boolean = false,
-    var forms: List<QuestionTypes> = emptyList<QuestionTypes>()
+    var forms: List<QuestionTypes> = emptyList<QuestionTypes>(),
+
+    var showAlertDialog: Boolean = false,
 )

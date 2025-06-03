@@ -1,68 +1,114 @@
 package com.example.formgim.presentation.main.home.form_to_fill
 
-import MyShowErrorDialog
-import MySubmitButton
+import MyAlertDialog
+import MyTopAppBar
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Send
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.formgim.presentation.main.home.components.form.ChooseQuestionTypeComposable
+import com.example.formgim.R
+import com.example.formgim.presentation.main.home.components.form.showing_question_type.ChooseQuestionTypeComposable
 
 @Composable
 fun FormToFillScreen(
     formId: Int,
+    goBack: () -> Unit,
     viewModel: FormToFillVm = hiltViewModel()
 ) {
     val listFormState by viewModel.stateOfView.collectAsState()
 
-    LaunchedEffect(Unit) {
-        viewModel.getListOfQuestionsFromFormId(formId)
-    }
 
-    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(0.dp, innerPadding.calculateTopPadding(), 0.dp, 0.dp)
-        ) {
-            items(listFormState.forms.size) { index ->
-                ChooseQuestionTypeComposable(
-                    listFormState.forms[index],
-                    onAnswerChanged = { answer -> viewModel.updateAnswer(index, answer) },
-                    onMultipleChanged = { answer ->
-                        viewModel.updateMultipleSelection(
-                            index,
-                            answer
-                        )
-                    },
-                    onSingleChanged = { selectedOption: Int ->
-                        viewModel.updateSingleSelection(
-                            index,
-                            selectedOption
-                        )
-                    },
-                    onSliderChanged = { sliderValue: Float ->
-                        viewModel.updateSliderAnswer(
-                            index,
-                            sliderValue
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            MyTopAppBar(
+                title = stringResource(R.string.form_to_fill),
+                backEvent = { goBack() },
+                actions = {
+                    IconButton(
+                        onClick = { viewModel.submitValues() }
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.Send,
+                            contentDescription = "Enviar Formulario"
                         )
                     }
-                )
-            }
-            item {
-                MySubmitButton { viewModel.submitValues() }
-            }
+                }
+            )
         }
 
-        if (listFormState.error) {
-            MyShowErrorDialog { viewModel.dismissDialog() }
+    ) { innerPadding ->
+        if (listFormState.isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding.calculateTopPadding())
+            )
+        } else {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(0.dp, innerPadding.calculateTopPadding(), 0.dp, 0.dp)
+            ) {
+                items(
+                    listFormState.forms.size,
+                    key = { listFormState.forms[it].id }) { index ->
+                    val formItem = listFormState.forms[index]
+                    ChooseQuestionTypeComposable(
+                        formItem,
+                        onAnswerChanged = { answer -> viewModel.updateAnswer(index, answer) },
+                        onMultipleChanged = { answer ->
+                            viewModel.updateMultipleSelection(
+                                index,
+                                answer
+                            )
+                        },
+                        onSingleChanged = { selectedOption: Int ->
+                            viewModel.updateSingleSelection(
+                                index,
+                                selectedOption
+                            )
+                        },
+                        onSliderChanged = { sliderValue: Float ->
+                            viewModel.updateSliderAnswer(
+                                index,
+                                sliderValue
+                            )
+                        },
+                        readonly = false
+                    )
+                }
+            }
+
+            if (listFormState.error) {
+                MyAlertDialog(
+                    acceptOption = { viewModel.dismissDialog() },
+                )
+            }
+
+            if (listFormState.showAlertDialog) {
+                MyAlertDialog(
+                    acceptOption = {
+                        viewModel.dismissDialog()
+                        goBack()
+                    },
+                    title = stringResource(R.string.form_to_fill_perfecto),
+                    message = stringResource(R.string.guardado_con_exito),
+
+                    )
+            }
         }
     }
 

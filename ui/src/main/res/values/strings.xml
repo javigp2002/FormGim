@@ -6,4 +6,21 @@
     <string name="accept_button">Aceptar</string>
     <string name="send_button">Enviar</string>
 
+    <string name="opcion">Opción</string>
+    <string name="Agregar">Opción</string>
+    <string name="agregar_campo">Nuevo Campo</string>
+    <string name="titulo_pregunta">Título Pregunta</string>
+    <string name="tipo_pregunta">Tipo de pregunta</string>
+    <string name="guardar_pregunta">Guardar Pregunta</string>
+    <string name="error_titulo_pregunta">No ha puesto ningún titulo en la nueva pregunta</string>
+    <string name="error_opciones_pregunta">Debe poner opciones no vacías</string>
+    <string name="textbox">Caja Texto\n</string>
+    <string name="checkbox">Respuesta Múltiple</string>
+    <string name="radiobox">Radio</string>
+    <string name="slider">Slider</string>
+    <string name="form_to_fill_perfecto">¡Perfecto!</string>
+    <string name="guardado_con_exito">Formulario guardado con éxito</string>
+    <string name="form_to_fill">Formulario</string>
+
+
 </resources>

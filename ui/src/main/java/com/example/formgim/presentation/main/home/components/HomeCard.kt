@@ -33,13 +33,18 @@ fun HomeCard(
             .padding(Constants.PaddingSizes.M.dp)
             .clickable { onClick },
         elevation = CardDefaults.cardElevation(Constants.Dimensions.CARD_ELEVATION.dp)
+
     ) {
         Column(
             modifier = Modifier.padding(Constants.PaddingSizes.L.dp)
         ) {
-            Text(text = homeFormCard.title, style = MaterialTheme.typography.labelLarge)
+            Text(
+                text = homeFormCard.title, style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.primary
+            )
             Spacer(modifier = Modifier.height(Constants.PaddingSizes.S.dp))
-            Text(text = homeFormCard.author, style = MaterialTheme.typography.bodySmall)
+
+            Text(text = homeFormCard.author, style = MaterialTheme.typography.bodyMedium)
             Spacer(modifier = Modifier.height(Constants.PaddingSizes.M.dp))
 
             Row(

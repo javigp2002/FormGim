@@ -1,4 +1,4 @@
-package com.example.formgim.presentation.main.home.components.form
+package com.example.formgim.presentation.main.home.components.form.showing_question_type
 
 import androidx.compose.runtime.Composable
 import com.appgim.domain.main.home.models.form.QuestionTypes
@@ -9,7 +9,8 @@ fun ChooseQuestionTypeComposable(
     onAnswerChanged: (String) -> Unit = {},
     onMultipleChanged: (Set<Int>) -> Unit = {},
     onSingleChanged: (Int) -> Unit = {},
-    onSliderChanged: (Float) -> Unit = {}
+    onSliderChanged: (Float) -> Unit = {},
+    readonly: Boolean = false
 ) {
     when (questionType) {
         is QuestionTypes.TextBox -> {
@@ -17,7 +18,8 @@ fun ChooseQuestionTypeComposable(
                 questionTitle = questionType.textBoxModel.title,
                 value = questionType.textBoxModel.answer,
                 onTextoChange = onAnswerChanged,
-                isError = questionType.textBoxModel.error
+                isError = questionType.textBoxModel.error,
+                readonly = readonly
             )
         }
 
@@ -27,7 +29,8 @@ fun ChooseQuestionTypeComposable(
                 options = questionType.multipleOptionModel.opciones,
                 selected = questionType.multipleOptionModel.seleccion,
                 onSeleccionChange = onMultipleChanged,
-                isError = questionType.multipleOptionModel.error
+                isError = questionType.multipleOptionModel.error,
+                enabled = !readonly
             )
         }
         is QuestionTypes.SingleOption -> {
@@ -36,7 +39,8 @@ fun ChooseQuestionTypeComposable(
                 options = questionType.singleOptionModel.opciones,
                 selection = questionType.singleOptionModel.seleccion,
                 onSeleccionChange = onSingleChanged,
-                isError = questionType.singleOptionModel.error
+                isError = questionType.singleOptionModel.error,
+                readonly = readonly
             )
         }
         is QuestionTypes.Slider -> {
@@ -44,6 +48,7 @@ fun ChooseQuestionTypeComposable(
                 questionTitle = questionType.sliderBoxModel.question,
                 value = questionType.sliderBoxModel.answer,
                 onValorChange = onSliderChanged,
+                enabled = !readonly,
             )
         }
     }

@@ -1,4 +1,4 @@
-package com.example.formgim.presentation.main.home.components.form
+package com.example.formgim.presentation.main.home.components.form.showing_question_type
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,7 +19,8 @@ fun SingleOptionAnswerQuestion(
     options: List<String>,
     selection: Int,
     onSeleccionChange: (Int) -> Unit,
-    isError: Boolean
+    isError: Boolean,
+    readonly: Boolean = true
 ) {
     Column(modifier = Modifier.padding(Constants.PaddingSizes.L.dp)) {
         Text(text = questionTitle)
@@ -35,7 +36,8 @@ fun SingleOptionAnswerQuestion(
                         )
                     } else {
                         RadioButtonDefaults.colors()
-                    }
+                    },
+                    enabled = !readonly
                 )
                 Text(text = opcion)
             }

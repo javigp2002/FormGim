@@ -1,6 +1,10 @@
 package com.appgim.data.repository
 
+import com.appgim.domain.main.home.models.FormData
 import com.appgim.domain.main.home.models.HomeFormCard
+import com.appgim.domain.main.home.models.dataform.QuestionTypesForDataForm
+import com.appgim.domain.main.home.models.dataform.SliderBoxDataModel
+import com.appgim.domain.main.home.models.dataform.TextDataModel
 import com.appgim.domain.main.home.models.form.MultipleOptionModel
 import com.appgim.domain.main.home.models.form.QuestionTypes
 import com.appgim.domain.main.home.models.form.SingleOptionModel
@@ -67,6 +71,44 @@ class FormRepositoryImpl @Inject constructor() : FormRepository {
         )
     }
 
+    override suspend fun getAnswersFromForm(formId: Int): List<QuestionTypesForDataForm> {
+        return withContext(Dispatchers.IO) {
+            listOf(
+                QuestionTypesForDataForm.TextBox(
+                    TextDataModel(
+                        id = 1,
+                        title = "¿Cuál es tu nombre?",
+                        answers = listOf("Juan", "Ana")
+                    )
+                ),
+                QuestionTypesForDataForm.Multiple(
+                    MultipleOptionModel(
+                        id = 2,
+                        question = "¿Cuál es tu color favorito?",
+                        opciones = listOf("Rojo", "Verde", "Azul"),
+                        seleccion = setOf(1, 2)
+                    )
+                ),
+                QuestionTypesForDataForm.SingleOption(
+                    SingleOptionModel(
+                        id = 3,
+                        question = "¿Cuál es tu deporte favorito?",
+                        opciones = listOf("Fútbol", "Baloncesto", "Tenis"),
+                        seleccion = 1
+                    )
+                ),
+                QuestionTypesForDataForm.Slider(
+                    SliderBoxDataModel(
+                        id = 4,
+                        question = "¿Qué tan satisfecho estás con nuestro servicio?",
+                        answers = listOf(10.0f, 80.0f, 60.0f, 90.0f, 100.0f)
+                    )
+                )
+            )
+        }
+    }
+
+
     override suspend fun sendAnswers(formId: Int, answers: List<QuestionTypes>): Boolean =
         withContext(Dispatchers.IO) {
             println("Sending answers: $answers")
@@ -74,4 +116,11 @@ class FormRepositoryImpl @Inject constructor() : FormRepository {
             true
         }
 
+    override suspend fun saveNewForm(formData: FormData): Boolean {
+        return withContext(Dispatchers.IO) {
+            println("Saving new form: $formData")
+            // Here you would typically save the form data to a database or remote server
+            true // Return true if the save operation was successful
+        }
+    }
 }
