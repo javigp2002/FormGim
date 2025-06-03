@@ -9,7 +9,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        minSdk = 24
+        minSdk = 34
     }
 
     compileOptions {
@@ -23,5 +23,7 @@ android {
 
 dependencies {
     implementation(libs.androidx.hilt.android)
+    implementation(libs.identity.credential)
+    implementation(libs.googleid)
     kapt(libs.androidx.hilt.android.compiler)
 }

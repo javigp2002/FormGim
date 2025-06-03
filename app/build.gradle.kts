@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -6,16 +8,25 @@ plugins {
     id("com.google.dagger.hilt.android")
 }
 
+val serverClientId: String = gradleLocalProperties(rootDir, providers).getProperty("server_client_id")
+
 android {
     namespace = "com.appgim.app"
     compileSdk = 35
 
+    // Activa la generación de BuildConfig
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         applicationId = "com.appgim.app"
-        minSdk = 24
+        minSdk = 34
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+
+        buildConfigField("String", "SERVER_CLIENT_ID", "\"$serverClientId\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -38,8 +49,6 @@ android {
     }
 }
 
-
-
 dependencies {
     // Hilt (DI)
     implementation(libs.androidx.hilt.android)
@@ -48,4 +57,12 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":ui"))
     implementation(project(":data"))
+
+    // Login
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
+    implementation(libs.identity.credential)
+    implementation("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1")
+
 }

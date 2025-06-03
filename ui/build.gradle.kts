@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -7,11 +9,14 @@ plugins {
     kotlin("plugin.serialization") version "2.0.21"
 }
 
+val serverClientId: String = gradleLocalProperties(rootDir, providers).getProperty("server_client_id")
+
 android {
     namespace = "com.example.formgim"
     compileSdk = 35
     defaultConfig {
-        minSdk = 24
+        minSdk = 34
+        buildConfigField("String", "SERVER_CLIENT_ID", "\"$serverClientId\"")
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -23,6 +28,12 @@ android {
     buildFeatures {
         compose = true
     }
+
+    // Activa la generación de BuildConfig
+    buildFeatures {
+        buildConfig = true
+    }
+
 }
 
 dependencies {
@@ -66,4 +77,8 @@ dependencies {
     // Hilt (DI)
     implementation(libs.androidx.hilt.android)
     kapt(libs.androidx.hilt.android.compiler)
+
+    // Login
+    implementation(libs.identity.credential)
+    implementation(libs.googleid)
 }
