@@ -6,7 +6,6 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
-    kotlin("plugin.serialization") version "2.0.21"
 }
 
 val serverClientId: String = gradleLocalProperties(rootDir, providers).getProperty("server_client_id")

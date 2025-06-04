@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
 
     id("kotlin-kapt")
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
 }
 
 android {
@@ -26,6 +27,20 @@ dependencies {
     // Hilt (DI)
     implementation(libs.androidx.hilt.android)
     kapt(libs.androidx.hilt.android.compiler)
+
+
+
+    implementation(libs.retrofit)
+
+    implementation(libs.kotlinx.serialization.json)
+    // Retrofit with Kotlin serialization Converter
+
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
+    implementation(libs.okhttp)
+
+
+
+
 
     implementation(libs.gson)
 

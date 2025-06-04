@@ -26,4 +26,8 @@ dependencies {
     implementation(libs.identity.credential)
     implementation(libs.googleid)
     kapt(libs.androidx.hilt.android.compiler)
+
+    implementation(libs.kotlinx.serialization.json)
+    // Retrofit with Kotlin serialization Converter
+
 }

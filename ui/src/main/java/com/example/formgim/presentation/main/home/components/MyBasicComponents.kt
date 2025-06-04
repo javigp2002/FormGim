@@ -3,6 +3,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -17,6 +18,8 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.appgim.domain.main.home.models.HomeFormCard
+import com.example.formgim.presentation.main.home.components.HomeCard
 import com.example.formgim.ui.theme.Constants
 
 @Composable
@@ -63,4 +66,29 @@ fun MyTopAppBar(
         actions = actions,
         modifier = Modifier.fillMaxWidth()
     )
+}
+
+@Composable
+fun ListFormsLazyColumn(
+    form: List<HomeFormCard>,
+    modifier: Modifier = Modifier,
+    goToDetail: (formId: Int) -> Unit = {}
+) {
+    LazyColumn {
+        items(
+            form.size,
+            key = { index -> form[index].id }
+        ) { index ->
+            HomeCard(
+                homeFormCard = HomeFormCard(
+                    id = form[index].id,
+                    title = form[index].title,
+                    author = form[index].author,
+                ),
+                onClick = {
+                    goToDetail(form[index].id)
+                }
+            )
+        }
+    }
 }

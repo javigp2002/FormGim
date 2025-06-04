@@ -37,14 +37,11 @@ fun HomeTabHost(
                         modifier = modifier.fillMaxSize()
                     )
 
-                    HomeTab.DoneForms -> if (isAdmin)
+                    HomeTab.DoneForms ->
                         DoneForm(
                             goToDetail = goToDoneForm,
                             modifier = modifier.fillMaxSize()
                         )
-                    else {
-                        NewFormsTab(modifier = Modifier.fillMaxSize()) // en caso de que falle
-                    }
                 }
             }
         }

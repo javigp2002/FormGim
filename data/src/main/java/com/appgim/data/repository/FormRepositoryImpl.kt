@@ -1,5 +1,7 @@
 package com.appgim.data.repository
 
+import com.appgim.data.api.BasicFormDto
+import com.appgim.data.api.RetrofitClient.FormApi
 import com.appgim.domain.main.home.models.FormData
 import com.appgim.domain.main.home.models.HomeFormCard
 import com.appgim.domain.main.home.models.dataform.QuestionTypesForDataForm
@@ -16,27 +18,40 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class FormRepositoryImpl @Inject constructor() : FormRepository {
-    override suspend fun getActiveForms(): Result<List<HomeFormCard>> =
+    override suspend fun getActiveForms(idUser: Int): Result<List<HomeFormCard>> =
         withContext(Dispatchers.IO) {
             try {
-                Result.success(
-                    listOf(
-                        HomeFormCard(
-                            id = 1,
-                            title = "Encuesta de satisfacción",
-                            author = "Woser Woser?",
-                        ),
-                        HomeFormCard(
-                            id = 2,
-                            title = "Registro de usuario",
-                            author = "Juan Pérez",
-                        ),
-                    )
-                )
+                val newForms = FormApi.retrofitService.getNewForm(mapOf("userId" to idUser))
+                val homeFormCards = formsToHomeFormCard(newForms)
+
+                Result.success(homeFormCards)
             } catch (e: Exception) {
                 Result.failure(e)
             }
         }
+
+    override suspend fun getDoneForms(idUser: Int): Result<List<HomeFormCard>> =
+        withContext(Dispatchers.IO) {
+            try {
+                val doneForms = FormApi.retrofitService.getDoneForm(mapOf("userId" to idUser))
+                val homeFormCards = formsToHomeFormCard(doneForms)
+                Result.success(homeFormCards)
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+        }
+
+    override suspend fun getAuthorForms(idUser: Int): Result<List<HomeFormCard>> =
+        withContext(Dispatchers.IO) {
+            try {
+                val doneForms = FormApi.retrofitService.getAuthorForm(mapOf("userId" to idUser))
+                val homeFormCards = formsToHomeFormCard(doneForms)
+                Result.success(homeFormCards)
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+        }
+
 
     override suspend fun getListOfQuestionsFromForm(): List<QuestionTypes> =
         withContext(Dispatchers.IO) {
@@ -121,6 +136,16 @@ class FormRepositoryImpl @Inject constructor() : FormRepository {
             println("Saving new form: $formData")
             // Here you would typically save the form data to a database or remote server
             true // Return true if the save operation was successful
+        }
+    }
+
+    private fun formsToHomeFormCard(forms: List<BasicFormDto>): List<HomeFormCard> {
+        return forms.map { form ->
+            HomeFormCard(
+                id = form.id,
+                title = form.title,
+                author = form.authorName,
+            )
         }
     }
 }

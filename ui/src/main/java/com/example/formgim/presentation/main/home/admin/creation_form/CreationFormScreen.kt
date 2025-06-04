@@ -73,7 +73,7 @@ fun CreationFormScreen(onBack: () -> Unit, viewModel: CreationFormVM = hiltViewM
                 )
             } else {
                 MyAlertDialog(
-                    acceptOption = { onBack() },
+                    acceptOption = { viewModel.closeDialog() },
                     title = "Error",
                     message = "Ha ocurrido un error al guardar el formulario. Por favor, inténtelo de nuevo."
                 )
@@ -115,13 +115,13 @@ fun CreationFormContent(
                         .padding(Constants.PaddingSizes.M.dp)
                 ) {
                     MyOutlinedTextField(
-                        value = state.title,
+                        value = state.form.title,
                         onValueChange = onTitleChange,
                         label = { Text("Título del formulario") }
                     )
 
                     MyOutlinedTextField(
-                        value = state.description,
+                        value = state.form.description,
                         onValueChange = onDescriptionChange,
                         label = { Text("Descripción del formulario") }
                     )
@@ -131,7 +131,7 @@ fun CreationFormContent(
 
             Spacer(modifier = Modifier.padding(vertical = Constants.PaddingSizes.M.dp))
 
-            state.listQuestion.forEachIndexed { index, question ->
+            state.form.questions.forEachIndexed { index, question ->
 
                 MyBorderBox {
                     ChooseQuestionTypeComposable(

@@ -11,7 +11,16 @@ class GetCurrentUser @Inject constructor(
     fun run(): Result<UserModel> {
         var user = userRepository.getUser()
 
-        user = UserModel(1, "John Doe", true) // Simulating a user for demonstration purposes
+        user = UserModel(
+            id = 1,
+            idGoogle = "sad",
+            name = "John",
+            surname = "Doe",
+            email = "jd@gmail.com",
+            isAdmin = true
+        )
+
+
 
         return if (user != null) {
             Result.success(user)
