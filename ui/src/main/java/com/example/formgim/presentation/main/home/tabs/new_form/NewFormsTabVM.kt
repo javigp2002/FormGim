@@ -23,7 +23,7 @@ class NewFormsTabVM @Inject constructor(
         viewModelScope.launch {
             val listFormCards: List<HomeFormCard> = getActiveForms.run()
             _listFormsState.value = _listFormsState.value.copy(
-                forms = listOf(listFormCards.first()),
+                forms = listFormCards,
             )
         }
     }

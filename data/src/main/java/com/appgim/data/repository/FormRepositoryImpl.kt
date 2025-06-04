@@ -1,5 +1,6 @@
 package com.appgim.data.repository
 
+import com.appgim.data.api.RetrofitClient.FormApi
 import com.appgim.domain.main.home.models.FormData
 import com.appgim.domain.main.home.models.HomeFormCard
 import com.appgim.domain.main.home.models.dataform.QuestionTypesForDataForm
@@ -19,20 +20,16 @@ class FormRepositoryImpl @Inject constructor() : FormRepository {
     override suspend fun getActiveForms(): Result<List<HomeFormCard>> =
         withContext(Dispatchers.IO) {
             try {
-                Result.success(
-                    listOf(
-                        HomeFormCard(
-                            id = 1,
-                            title = "Encuesta de satisfacción",
-                            author = "Woser Woser?",
-                        ),
-                        HomeFormCard(
-                            id = 2,
-                            title = "Registro de usuario",
-                            author = "Juan Pérez",
-                        ),
+                val newForms = FormApi.retrofitService.getNewForm(mapOf("userId" to 2))
+                val homeFormCards = newForms.map { form ->
+                    HomeFormCard(
+                        id = form.id,
+                        title = form.title,
+                        author = form.authorName,
                     )
-                )
+                }
+
+                Result.success(homeFormCards)
             } catch (e: Exception) {
                 Result.failure(e)
             }
