@@ -23,6 +23,12 @@ interface RetrofitClient {
     @POST("new_forms")
     suspend fun getNewForm(@Body requestBody: Map<String, Int>): List<BasicFormDto>
 
+    @POST("done_forms")
+    suspend fun getDoneForm(@Body requestBody: Map<String, Int>): List<BasicFormDto>
+
+    @POST("author_forms")
+    suspend fun getAuthorForm(@Body requestBody: Map<String, Int>): List<BasicFormDto>
+
     object FormApi {
         val retrofitService: RetrofitClient by lazy {
             retrofit.create(RetrofitClient::class.java)

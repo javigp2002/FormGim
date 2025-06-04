@@ -13,8 +13,3 @@ data class BasicFormDto(
     val authorName: String,
 )
 
-
-@Serializable
-data class FormsWrapper(
-    val forms: List<BasicFormDto>
-)

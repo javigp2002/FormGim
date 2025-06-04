@@ -13,6 +13,16 @@ class SharedPreferences @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
     fun getUser(): UserModel? {
+        return UserModel(
+            id = 1,
+            idGoogle = "sad",
+            name = "John",
+            surname = "Doe",
+            email = "jd@gmail.com",
+            isAdmin = false
+        )
+
+
         val sharedPreferences = context.getSharedPreferences("USER_KEY", Context.MODE_PRIVATE)
         val userJson = sharedPreferences.getString(USER_KEY, null)
         return if (userJson != null) Gson().fromJson(userJson, UserModel::class.java) else null
