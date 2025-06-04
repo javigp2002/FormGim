@@ -1,11 +1,16 @@
 package com.appgim.data.api
 
+import com.appgim.data.api.dto.FormDataJson
+import com.appgim.domain.main.home.models.FormData
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 
 private const val BASE_URL =
@@ -28,6 +33,11 @@ interface RetrofitClient {
 
     @POST("author_forms")
     suspend fun getAuthorForm(@Body requestBody: Map<String, Int>): List<BasicFormDto>
+
+    @OptIn(InternalSerializationApi::class)
+    @POST("form/save")
+    suspend fun saveForm(@Body formData: FormDataJson): Boolean
+
 
     object FormApi {
         val retrofitService: RetrofitClient by lazy {

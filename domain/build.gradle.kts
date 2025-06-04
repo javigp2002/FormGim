@@ -24,4 +24,8 @@ android {
 dependencies {
     implementation(libs.androidx.hilt.android)
     kapt(libs.androidx.hilt.android.compiler)
+
+    implementation(libs.kotlinx.serialization.json)
+    // Retrofit with Kotlin serialization Converter
+
 }

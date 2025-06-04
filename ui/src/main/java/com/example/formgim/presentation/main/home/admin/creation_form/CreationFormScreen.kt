@@ -73,7 +73,7 @@ fun CreationFormScreen(onBack: () -> Unit, viewModel: CreationFormVM = hiltViewM
                 )
             } else {
                 MyAlertDialog(
-                    acceptOption = { onBack() },
+                    acceptOption = { viewModel.closeDialog() },
                     title = "Error",
                     message = "Ha ocurrido un error al guardar el formulario. Por favor, inténtelo de nuevo."
                 )

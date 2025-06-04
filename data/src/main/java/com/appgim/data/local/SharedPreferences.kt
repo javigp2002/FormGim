@@ -19,7 +19,7 @@ class SharedPreferences @Inject constructor(
             name = "John",
             surname = "Doe",
             email = "jd@gmail.com",
-            isAdmin = false
+            isAdmin = true
         )
 
 

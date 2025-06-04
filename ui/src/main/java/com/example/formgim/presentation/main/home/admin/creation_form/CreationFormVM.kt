@@ -66,7 +66,13 @@ class CreationFormVM @Inject constructor(
                 showAlertDialog = true,
                 hasBeenSavedProperly = hasBeenSaved
             )
-
         }
+    }
+
+    fun closeDialog() {
+        _stateOfView.value = _stateOfView.value.copy(
+            showAlertDialog = false,
+            hasBeenSavedProperly = false
+        )
     }
 }
