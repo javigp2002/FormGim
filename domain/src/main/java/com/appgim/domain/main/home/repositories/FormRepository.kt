@@ -6,7 +6,7 @@ import com.appgim.domain.main.home.models.dataform.QuestionTypesForDataForm
 import com.appgim.domain.main.home.models.form.QuestionTypes
 
 interface FormRepository {
-    suspend fun getActiveForms(): Result<List<HomeFormCard>>
+    suspend fun getActiveForms(idUser: Int): Result<List<HomeFormCard>>
     suspend fun getDoneForms(idUser: Int): Result<List<HomeFormCard>>
     suspend fun getAuthorForms(idUser: Int): Result<List<HomeFormCard>>
 

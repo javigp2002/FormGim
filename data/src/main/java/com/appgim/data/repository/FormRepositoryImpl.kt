@@ -18,10 +18,10 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class FormRepositoryImpl @Inject constructor() : FormRepository {
-    override suspend fun getActiveForms(): Result<List<HomeFormCard>> =
+    override suspend fun getActiveForms(idUser: Int): Result<List<HomeFormCard>> =
         withContext(Dispatchers.IO) {
             try {
-                val newForms = FormApi.retrofitService.getNewForm(mapOf("userId" to 2))
+                val newForms = FormApi.retrofitService.getNewForm(mapOf("userId" to idUser))
                 val homeFormCards = formsToHomeFormCard(newForms)
 
                 Result.success(homeFormCards)
