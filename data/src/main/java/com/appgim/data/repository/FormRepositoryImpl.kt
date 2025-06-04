@@ -1,7 +1,9 @@
 package com.appgim.data.repository
 
+import android.util.Log
 import com.appgim.data.api.BasicFormDto
 import com.appgim.data.api.RetrofitClient.FormApi
+import com.appgim.data.api.dto.createJson
 import com.appgim.domain.main.home.models.FormData
 import com.appgim.domain.main.home.models.HomeFormCard
 import com.appgim.domain.main.home.models.dataform.QuestionTypesForDataForm
@@ -15,6 +17,7 @@ import com.appgim.domain.main.home.models.form.TextBoxModel
 import com.appgim.domain.main.home.repositories.FormRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.InternalSerializationApi
 import javax.inject.Inject
 
 class FormRepositoryImpl @Inject constructor() : FormRepository {
@@ -53,38 +56,42 @@ class FormRepositoryImpl @Inject constructor() : FormRepository {
         }
 
 
-    override suspend fun getListOfQuestionsFromForm(): List<QuestionTypes> =
+    @OptIn(InternalSerializationApi::class)
+    override suspend fun getFormFromId(id: Int): FormData =
         withContext(Dispatchers.IO) {
-            listOf(
-            QuestionTypes.Multiple(
-                MultipleOptionModel(
-                    id = 1,
-                    question = "¿Cuál es tu color favorito?",
-                    opciones = listOf("Rojo", "Verde", "Azul"),
-                )
-            ),
-            QuestionTypes.TextBox(
-                TextBoxModel(
-                    id = 2,
-                    title = "¿Cuál es tu nombre?",
-                )
-            ),
-            QuestionTypes.SingleOption(
-                SingleOptionModel(
-                    id = 3,
-                    question = "¿Cuál es tu deporte favorito?",
-                    opciones = listOf("Fútbol", "Baloncesto", "Tenis"),
-                )
-            ),
+            val result = FormApi.retrofitService.getForm(id)
 
-            QuestionTypes.Slider(
-                SliderBoxModel(
-                    id = 4,
-                    question = "¿Qué tan satisfecho estás con nuestro servicio?",
-                ),
+            FormData(
+                id = result.id,
+                title = result.title,
+                description = result.description,
+                questions = result.questions.map { question ->
+                    when (question.questionType) {
+                        1 -> QuestionTypes.TextBox(TextBoxModel(id = question.id, title = question.title))
+                        2 -> QuestionTypes.Multiple(
+                            MultipleOptionModel(
+                                id = question.id,
+                                question = question.title,
+                                opciones = question.options,
+                            )
+                        )
+
+                        3 -> QuestionTypes.SingleOption(
+                            SingleOptionModel(
+                                id = question.id,
+                                question = question.title,
+                                opciones = question.options,
+                            )
+                        )
+
+                        4 -> QuestionTypes.Slider(SliderBoxModel(id = question.id, question = question.title))
+                        else -> throw IllegalArgumentException("Unknown question type: ${question.questionType}")
+                    }
+                }
             )
-        )
-    }
+
+        }
+
 
     override suspend fun getAnswersFromForm(formId: Int): List<QuestionTypesForDataForm> {
         return withContext(Dispatchers.IO) {
@@ -131,13 +138,18 @@ class FormRepositoryImpl @Inject constructor() : FormRepository {
             true
         }
 
-    override suspend fun saveNewForm(formData: FormData): Boolean {
-        return withContext(Dispatchers.IO) {
-            println("Saving new form: $formData")
-            // Here you would typically save the form data to a database or remote server
-            true // Return true if the save operation was successful
+    @OptIn(InternalSerializationApi::class)
+    override suspend fun saveNewForm(formData: FormData): Boolean =
+        withContext(Dispatchers.IO) {
+            try {
+                val formDataJson = createJson(formData)
+                val result = FormApi.retrofitService.saveForm(formDataJson)
+                return@withContext result
+            } catch (e: Exception) {
+                Log.e("JAVI", "Error saving form: ${e.message}")
+                return@withContext false
+            }
         }
-    }
 
     private fun formsToHomeFormCard(forms: List<BasicFormDto>): List<HomeFormCard> {
         return forms.map { form ->

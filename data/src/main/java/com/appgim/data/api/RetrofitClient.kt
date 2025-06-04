@@ -1,7 +1,7 @@
 package com.appgim.data.api
 
 import com.appgim.data.api.dto.FormDataJson
-import com.appgim.domain.main.home.models.FormData
+import com.appgim.data.api.dto.GetFullFormDto
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.json.Json
@@ -38,6 +38,9 @@ interface RetrofitClient {
     @POST("form/save")
     suspend fun saveForm(@Body formData: FormDataJson): Boolean
 
+    @OptIn(InternalSerializationApi::class)
+    @GET("form/{id}")
+    suspend fun getForm(@Path("id") id: Int): GetFullFormDto
 
     object FormApi {
         val retrofitService: RetrofitClient by lazy {

@@ -37,7 +37,7 @@ class FormToFillVm @Inject constructor(
         viewModelScope.launch {
             getListOfQuestionsFromForm.run(id).let { questions ->
                 _stateOfView.value = _stateOfView.value.copy(
-                    forms = questions,
+                    forms = questions.questions,
                     isLoading = false
                 )
 

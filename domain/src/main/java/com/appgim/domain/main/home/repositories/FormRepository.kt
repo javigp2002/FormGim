@@ -10,7 +10,7 @@ interface FormRepository {
     suspend fun getDoneForms(idUser: Int): Result<List<HomeFormCard>>
     suspend fun getAuthorForms(idUser: Int): Result<List<HomeFormCard>>
 
-    suspend fun getListOfQuestionsFromForm(): List<QuestionTypes>
+    suspend fun getFormFromId(id: Int): FormData
     suspend fun getAnswersFromForm(idForm: Int): List<QuestionTypesForDataForm>
 
     suspend fun sendAnswers(formId: Int, answers: List<QuestionTypes>): Boolean
