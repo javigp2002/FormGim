@@ -10,6 +10,7 @@ data class GetFullFormDto(
     val title: String,
     val description: String,
     val authorName: String,
+    val timesFormDone: Int,
     val questions: List<QuestionDto>
 )
 

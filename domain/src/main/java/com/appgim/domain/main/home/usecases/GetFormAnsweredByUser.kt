@@ -5,7 +5,7 @@ import com.appgim.domain.main.home.models.FormData
 import com.appgim.domain.main.home.repositories.FormRepository
 import javax.inject.Inject
 
-class GetFormAnswered @Inject constructor(
+class GetFormAnsweredByUser @Inject constructor(
     private val formRepository: FormRepository,
     private val userRepository: UserRepository
 ) {

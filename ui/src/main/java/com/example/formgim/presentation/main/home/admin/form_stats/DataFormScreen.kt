@@ -1,10 +1,10 @@
 package com.example.formgim.presentation.main.home.admin.form_stats
 
 import MyTopAppBar
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.CircularProgressIndicator
@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.formgim.presentation.main.home.components.form.data_components.ChooseDataComposable
 import com.example.formgim.ui.theme.Constants
 
 @Composable
@@ -58,7 +59,21 @@ fun DataFormScreen(
                     .padding(innerPadding.calculateTopPadding())
             )
         } else {
-            Box {}
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(0.dp, innerPadding.calculateTopPadding(), 0.dp, 0.dp)
+            ) {
+                items(
+                    listFormState.dataStats.questions.size,
+                    key = { listFormState.dataStats.questions[it].id }
+                ) { index ->
+                    ChooseDataComposable(
+                        listFormState.dataStats.questions[index],
+                        listFormState.dataStats.formNumberOfFormsDone
+                    )
+                }
+            }
         }
     }
 }

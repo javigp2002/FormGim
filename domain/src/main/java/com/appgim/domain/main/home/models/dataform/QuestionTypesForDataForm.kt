@@ -1,8 +1,5 @@
 package com.appgim.domain.main.home.models.dataform
 
-import com.appgim.domain.main.home.models.form.MultipleOptionModel
-import com.appgim.domain.main.home.models.form.SingleOptionModel
-
 sealed class QuestionTypesForDataForm(
     val id: Int,
     val text: String,
@@ -14,9 +11,9 @@ sealed class QuestionTypesForDataForm(
     data class Slider(val sliderBoxDataModel: SliderBoxDataModel) :
         QuestionTypesForDataForm(sliderBoxDataModel.id, sliderBoxDataModel.question)
 
-    data class Multiple(val multipleOptionModel: MultipleOptionModel) :
-        QuestionTypesForDataForm(multipleOptionModel.id, multipleOptionModel.question, multipleOptionModel.error)
+    data class Multiple(val multipleOptionModel: MultipleOptionStatsModel) :
+        QuestionTypesForDataForm(multipleOptionModel.id, multipleOptionModel.question)
 
-    data class SingleOption(val singleOptionModel: SingleOptionModel) :
-        QuestionTypesForDataForm(singleOptionModel.id, singleOptionModel.question, singleOptionModel.error)
+    data class SingleOption(val singleOptionModel: SingleOptionStatsModel) :
+        QuestionTypesForDataForm(singleOptionModel.id, singleOptionModel.question)
 }

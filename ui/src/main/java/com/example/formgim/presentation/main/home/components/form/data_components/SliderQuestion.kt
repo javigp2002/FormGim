@@ -41,7 +41,7 @@ fun SliderData(
                 Text("Lista de Valores dados:", style = MaterialTheme.typography.bodyLarge)
                 values.forEachIndexed { index, value ->
                     Text(
-                        text = value.toString(),
+                        text = value.toInt().toString(),
                         modifier = Modifier.padding(top = Constants.PaddingSizes.S.dp)
                     )
                 }
@@ -53,7 +53,7 @@ fun SliderData(
                     .padding(start = Constants.PaddingSizes.M.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("Media de Valores: ${values.average()}")
+                Text("Media de Valores: ${"%.3f".format(values.average())}")
 
             }
         }

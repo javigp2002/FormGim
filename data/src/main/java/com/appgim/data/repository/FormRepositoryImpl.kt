@@ -7,8 +7,11 @@ import com.appgim.data.api.dto.to_back.SaveAnswersDto
 import com.appgim.data.api.dto.to_back.SaveAnswersFromUserDto
 import com.appgim.data.api.dto.to_back.createJson
 import com.appgim.domain.main.home.models.FormData
+import com.appgim.domain.main.home.models.FormDataStats
 import com.appgim.domain.main.home.models.HomeFormCard
+import com.appgim.domain.main.home.models.dataform.MultipleOptionStatsModel
 import com.appgim.domain.main.home.models.dataform.QuestionTypesForDataForm
+import com.appgim.domain.main.home.models.dataform.SingleOptionStatsModel
 import com.appgim.domain.main.home.models.dataform.SliderBoxDataModel
 import com.appgim.domain.main.home.models.dataform.TextDataModel
 import com.appgim.domain.main.home.models.form.MultipleOptionModel
@@ -94,47 +97,8 @@ class FormRepositoryImpl @Inject constructor() : FormRepository {
 
         }
 
-
-    override suspend fun getAnswersFromForm(formId: Int): List<QuestionTypesForDataForm> {
-        return withContext(Dispatchers.IO) {
-            listOf(
-                QuestionTypesForDataForm.TextBox(
-                    TextDataModel(
-                        id = 1,
-                        title = "¿Cuál es tu nombre?",
-                        answers = listOf("Juan", "Ana")
-                    )
-                ),
-                QuestionTypesForDataForm.Multiple(
-                    MultipleOptionModel(
-                        id = 2,
-                        question = "¿Cuál es tu color favorito?",
-                        opciones = listOf("Rojo", "Verde", "Azul"),
-                        seleccion = setOf(1, 2)
-                    )
-                ),
-                QuestionTypesForDataForm.SingleOption(
-                    SingleOptionModel(
-                        id = 3,
-                        question = "¿Cuál es tu deporte favorito?",
-                        opciones = listOf("Fútbol", "Baloncesto", "Tenis"),
-                        seleccion = 1
-                    )
-                ),
-                QuestionTypesForDataForm.Slider(
-                    SliderBoxDataModel(
-                        id = 4,
-                        question = "¿Qué tan satisfecho estás con nuestro servicio?",
-                        answers = listOf(10.0f, 80.0f, 60.0f, 90.0f, 100.0f)
-                    )
-                )
-            )
-        }
-    }
-
     @OptIn(InternalSerializationApi::class)
     override suspend fun getFormAnsweredFromId(id: Int, idUser: Int): FormData {
-
         try {
             val result = FormApi.retrofitService.getFormAnswered(id, idUser)
             return FormData(
@@ -186,6 +150,67 @@ class FormRepositoryImpl @Inject constructor() : FormRepository {
                 title = "Error al cargar el formulario",
                 description = "No se pudo obtener el formulario respondido.",
                 questions = emptyList()
+            )
+        }
+    }
+
+    @OptIn(InternalSerializationApi::class)
+    override suspend fun getFormAnswers(id: Int): FormDataStats {
+        try {
+            val result = FormApi.retrofitService.getFormAnswers(id)
+            return FormDataStats(
+                id = result.id,
+                title = result.title,
+                description = result.description,
+                formNumberOfFormsDone = result.timesFormDone,
+                questions = result.questions.map { question ->
+                    when (question.questionType) {
+                        1 -> QuestionTypesForDataForm.TextBox(
+                            TextDataModel(
+                                id = question.id,
+                                title = question.title,
+                                answers = question.answers
+                            )
+                        )
+
+                        2 -> QuestionTypesForDataForm.Multiple(
+                            MultipleOptionStatsModel(
+                                id = question.id,
+                                question = question.title,
+                                opciones = question.options,
+                                seleccion = question.answers.groupingBy { question.options.indexOf(it) }.eachCount()
+                            )
+                        )
+
+                        3 -> QuestionTypesForDataForm.SingleOption(
+                            SingleOptionStatsModel(
+                                id = question.id,
+                                question = question.title,
+                                opciones = question.options,
+                                seleccion = question.answers.groupingBy { question.options.indexOf(it) }.eachCount()
+                            )
+                        )
+
+                        4 -> QuestionTypesForDataForm.Slider(
+                            SliderBoxDataModel(
+                                id = question.id,
+                                question = question.title,
+                                answers = question.answers.mapNotNull { it.toFloatOrNull() }
+                            )
+                        )
+
+                        else -> throw IllegalArgumentException("Unknown question type: ${question.questionType}")
+                    }
+                }
+            )
+        } catch (e: Exception) {
+            Log.e("JAVI", "Error getting answered form: ${e.message}")
+            return FormDataStats(
+                id = id,
+                title = "Error al cargar el formulario",
+                description = "No se pudo obtener el formulario respondido.",
+                questions = emptyList(),
+                formNumberOfFormsDone = 0
             )
         }
     }
