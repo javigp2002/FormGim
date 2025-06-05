@@ -1,4 +1,4 @@
-package com.appgim.data.api.dto
+package com.appgim.data.api.dto.to_back
 
 import com.appgim.domain.main.home.models.FormData
 import com.appgim.domain.main.home.models.form.QuestionTypes

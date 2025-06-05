@@ -1,9 +1,11 @@
 package com.appgim.data.repository
 
 import android.util.Log
-import com.appgim.data.api.BasicFormDto
 import com.appgim.data.api.RetrofitClient.FormApi
-import com.appgim.data.api.dto.createJson
+import com.appgim.data.api.dto.from_back.BasicFormDto
+import com.appgim.data.api.dto.to_back.SaveAnswersDto
+import com.appgim.data.api.dto.to_back.SaveAnswersFromUserDto
+import com.appgim.data.api.dto.to_back.createJson
 import com.appgim.domain.main.home.models.FormData
 import com.appgim.domain.main.home.models.HomeFormCard
 import com.appgim.domain.main.home.models.dataform.QuestionTypesForDataForm
@@ -131,11 +133,62 @@ class FormRepositoryImpl @Inject constructor() : FormRepository {
     }
 
 
-    override suspend fun sendAnswers(formId: Int, answers: List<QuestionTypes>): Boolean =
+    @OptIn(InternalSerializationApi::class)
+    override suspend fun sendAnswers(formId: Int, idUser: Int, answers: List<QuestionTypes>): Result<Boolean> =
         withContext(Dispatchers.IO) {
-            println("Sending answers: $answers")
+            val answersData: MutableList<SaveAnswersDto> = mutableListOf()
 
-            true
+            for (answersQuestionTypes in answers) {
+                when (answersQuestionTypes) {
+                    is QuestionTypes.TextBox -> {
+                        answersData.add(
+                            SaveAnswersDto(
+                                idQuestion = answersQuestionTypes.textBoxModel.id,
+                                answer = answersQuestionTypes.textBoxModel.answer
+                            )
+                        )
+                    }
+
+                    is QuestionTypes.Slider -> {
+                        answersData.add(
+                            SaveAnswersDto(
+                                idQuestion = answersQuestionTypes.sliderBoxModel.id,
+                                answer = answersQuestionTypes.sliderBoxModel.answer.toString()
+                            )
+                        )
+                    }
+
+                    is QuestionTypes.Multiple -> {
+                        for (option in answersQuestionTypes.multipleOptionModel.seleccion) {
+                            answersData.add(
+                                SaveAnswersDto(
+                                    idQuestion = answersQuestionTypes.multipleOptionModel.id,
+                                    answer = answersQuestionTypes.multipleOptionModel.opciones[option]
+                                )
+                            )
+                        }
+                    }
+
+                    is QuestionTypes.SingleOption -> {
+                        answersData.add(
+                            SaveAnswersDto(
+                                idQuestion = answersQuestionTypes.singleOptionModel.id,
+                                answer = answersQuestionTypes.singleOptionModel.opciones[answersQuestionTypes.singleOptionModel.seleccion]
+                            )
+                        )
+                    }
+                }
+            }
+
+
+            Result.success(
+                FormApi.retrofitService.saveAnswers(
+                    formId, SaveAnswersFromUserDto(
+                        idUser = idUser,
+                        answers = answersData
+                    )
+                )
+            )
         }
 
     @OptIn(InternalSerializationApi::class)

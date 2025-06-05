@@ -1,4 +1,4 @@
-package com.appgim.data.api
+package com.appgim.data.api.dto.from_back
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -12,4 +12,3 @@ data class BasicFormDto(
     @SerialName(value = "author_name")
     val authorName: String,
 )
-

@@ -1,4 +1,4 @@
-package com.appgim.data.api.dto
+package com.appgim.data.api.dto.from_back
 
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.Serializable

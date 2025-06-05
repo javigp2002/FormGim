@@ -13,7 +13,7 @@ interface FormRepository {
     suspend fun getFormFromId(id: Int): FormData
     suspend fun getAnswersFromForm(idForm: Int): List<QuestionTypesForDataForm>
 
-    suspend fun sendAnswers(formId: Int, answers: List<QuestionTypes>): Boolean
+    suspend fun sendAnswers(formId: Int, idUser: Int, answers: List<QuestionTypes>): Result<Boolean>
 
     suspend fun saveNewForm(formData: FormData): Boolean
 }
