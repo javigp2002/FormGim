@@ -102,7 +102,7 @@ fun HomeScreen(
                 }
             }
             HomeTabHost(
-                navController, startDestination, homeListState.isAdmin,
+                navController, startDestination,
                 goToDetail = goToDetail,
                 goToDoneForm = goToDoneForm,
                 goToFormStats = goToFormStats

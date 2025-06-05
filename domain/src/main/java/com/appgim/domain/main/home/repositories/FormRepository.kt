@@ -12,6 +12,8 @@ interface FormRepository {
 
     suspend fun getFormFromId(id: Int): FormData
     suspend fun getAnswersFromForm(idForm: Int): List<QuestionTypesForDataForm>
+    suspend fun getFormAnsweredFromId(id: Int, idUser: Int): FormData
+
 
     suspend fun sendAnswers(formId: Int, idUser: Int, answers: List<QuestionTypes>): Result<Boolean>
 

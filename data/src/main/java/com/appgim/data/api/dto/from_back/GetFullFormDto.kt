@@ -19,5 +19,6 @@ data class QuestionDto(
     val id: Int,
     val title: String,
     val questionType: Int,
-    val options: List<String>
+    val options: List<String>,
+    val answers: List<String> = emptyList()
 )

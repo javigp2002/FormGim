@@ -44,6 +44,9 @@ interface RetrofitClient {
     @GET("form/{id}")
     suspend fun getForm(@Path("id") id: Int): GetFullFormDto
 
+    @OptIn(InternalSerializationApi::class)
+    @GET("form/{id}/answered/{idUser}")
+    suspend fun getFormAnswered(@Path("id") id: Int, @Path("idUser") idUser: Int): GetFullFormDto
 
     @OptIn(InternalSerializationApi::class)
     @POST("form/{id}/save_answers")

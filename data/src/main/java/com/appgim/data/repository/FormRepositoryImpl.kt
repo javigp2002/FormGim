@@ -132,6 +132,64 @@ class FormRepositoryImpl @Inject constructor() : FormRepository {
         }
     }
 
+    @OptIn(InternalSerializationApi::class)
+    override suspend fun getFormAnsweredFromId(id: Int, idUser: Int): FormData {
+
+        try {
+            val result = FormApi.retrofitService.getFormAnswered(id, idUser)
+            return FormData(
+                id = result.id,
+                title = result.title,
+                description = result.description,
+                questions = result.questions.map { question ->
+                    when (question.questionType) {
+                        1 -> QuestionTypes.TextBox(
+                            TextBoxModel(
+                                id = question.id, title = question.title,
+                                answer = question.answers.first()
+                            )
+                        )
+
+                        2 -> QuestionTypes.Multiple(
+                            MultipleOptionModel(
+                                id = question.id,
+                                question = question.title,
+                                opciones = question.options,
+                                seleccion = question.answers.map { question.options.indexOf(it) }.toSet()
+                            )
+                        )
+
+                        3 -> QuestionTypes.SingleOption(
+                            SingleOptionModel(
+                                id = question.id,
+                                question = question.title,
+                                opciones = question.options,
+                                seleccion = question.options.indexOf(question.answers.firstOrNull() ?: "")
+                            )
+                        )
+
+                        4 -> QuestionTypes.Slider(
+                            SliderBoxModel(
+                                id = question.id, question = question.title,
+                                answer = question.answers.firstOrNull()?.toFloatOrNull() ?: 0f
+                            )
+                        )
+
+                        else -> throw IllegalArgumentException("Unknown question type: ${question.questionType}")
+                    }
+                }
+            )
+        } catch (e: Exception) {
+            Log.e("JAVI", "Error getting answered form: ${e.message}")
+            return FormData(
+                id = id,
+                title = "Error al cargar el formulario",
+                description = "No se pudo obtener el formulario respondido.",
+                questions = emptyList()
+            )
+        }
+    }
+
 
     @OptIn(InternalSerializationApi::class)
     override suspend fun sendAnswers(formId: Int, idUser: Int, answers: List<QuestionTypes>): Result<Boolean> =
