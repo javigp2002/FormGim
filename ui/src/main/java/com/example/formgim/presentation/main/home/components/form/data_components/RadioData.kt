@@ -1,6 +1,7 @@
 package com.example.formgim.presentation.main.home.components.form.data_components
 
-import androidx.compose.foundation.layout.Column
+import QuestionDescriptionText
+import QuestionWithResponses
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.RadioButton
@@ -9,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.formgim.ui.theme.Constants
 
 @Composable
 fun RadioData(
@@ -18,8 +18,9 @@ fun RadioData(
     selected: Map<Int, Int>,
     timesFormDone: Int,
 ) {
-    Column(modifier = Modifier.padding(Constants.PaddingSizes.L.dp)) {
-        Text(text = questionTitle)
+    QuestionWithResponses(
+        title = questionTitle,
+    ) {
         options.forEachIndexed { index, opcion ->
             val numOcurrences = selected[index] ?: 0
 
@@ -29,7 +30,7 @@ fun RadioData(
                     onClick = { },
                     enabled = false,
                 )
-                Text(text = "$opcion ")
+                QuestionDescriptionText(opcion)
                 Text(text = "$numOcurrences / $timesFormDone", modifier = Modifier.padding(start = 8.dp))
             }
         }

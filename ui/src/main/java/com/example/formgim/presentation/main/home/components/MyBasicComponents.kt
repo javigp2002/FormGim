@@ -1,22 +1,30 @@
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults.cardElevation
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.shapes
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.appgim.domain.main.home.models.HomeFormCard
 import com.example.formgim.presentation.main.home.components.HomeCard
@@ -89,6 +97,61 @@ fun ListFormsLazyColumn(
                     goToDetail(form[index].id)
                 }
             )
+        }
+    }
+}
+
+
+@Composable
+fun MyElevatedCard(
+    content: @Composable () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(Constants.PaddingSizes.M.dp),
+        elevation = cardElevation(4.dp),
+    ) {
+        content()
+    }
+}
+
+@Composable
+fun QuestionTitleText(
+    questionTitle: String
+) {
+    Text(
+        text = questionTitle,
+        style = typography.titleLarge,
+        color = colorScheme.secondary,
+        fontWeight = FontWeight.Bold
+    )
+}
+
+@Composable
+fun QuestionDescriptionText(
+    questionDescription: String
+) {
+    Text(
+        text = questionDescription,
+        style = typography.bodyMedium,
+        color = colorScheme.onSurfaceVariant,
+        modifier = Modifier.padding(top = Constants.PaddingSizes.S.dp)
+    )
+}
+
+@Composable
+fun QuestionWithResponses(
+    title: String,
+    spacerHeight: Dp = Constants.PaddingSizes.M.dp,
+    responses: @Composable () -> Unit
+) {
+    Column(modifier = Modifier.padding(Constants.PaddingSizes.L.dp)) {
+        QuestionTitleText(title)
+        Spacer(modifier = Modifier.height(spacerHeight))
+
+        Column(modifier = Modifier.padding(start = Constants.PaddingSizes.M.dp)) {
+            responses()
         }
     }
 }

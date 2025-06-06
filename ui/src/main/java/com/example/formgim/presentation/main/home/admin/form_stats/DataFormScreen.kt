@@ -1,15 +1,12 @@
 package com.example.formgim.presentation.main.home.admin.form_stats
 
+import MyElevatedCard
 import MyTopAppBar
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -39,16 +36,7 @@ fun DataFormScreen(
             MyTopAppBar(
                 title = "Información del formulario",
                 backEvent = { onBack() },
-                actions = {
-                    IconButton(
-                        onClick = { }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Save,
-                            contentDescription = "Guardar Formulario"
-                        )
-                    }
-                }
+                actions = {}
             )
         }
     ) { innerPadding ->
@@ -68,10 +56,12 @@ fun DataFormScreen(
                     listFormState.dataStats.questions.size,
                     key = { listFormState.dataStats.questions[it].id }
                 ) { index ->
-                    ChooseDataComposable(
-                        listFormState.dataStats.questions[index],
-                        listFormState.dataStats.formNumberOfFormsDone
-                    )
+                    MyElevatedCard {
+                        ChooseDataComposable(
+                            questionType = listFormState.dataStats.questions[index],
+                            timesFormDone = listFormState.dataStats.formNumberOfFormsDone
+                        )
+                    }
                 }
             }
         }

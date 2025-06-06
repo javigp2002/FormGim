@@ -1,5 +1,6 @@
 package com.example.formgim.presentation.main.home.answered_form_screen
 
+import MyElevatedCard
 import MyTopAppBar
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -44,10 +45,12 @@ fun DoneFormScreen(
                     .padding(0.dp, innerPadding.calculateTopPadding(), 0.dp, 0.dp)
             ) {
                 items(listFormState.forms.size) { index ->
-                    ChooseQuestionTypeComposable(
-                        listFormState.forms[index],
-                        readonly = true,
-                    )
+                    MyElevatedCard {
+                        ChooseQuestionTypeComposable(
+                            listFormState.forms[index],
+                            readonly = true,
+                        )
+                    }
                 }
             }
         }

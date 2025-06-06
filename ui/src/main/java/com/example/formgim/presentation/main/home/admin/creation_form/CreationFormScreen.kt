@@ -1,7 +1,7 @@
 package com.example.formgim.presentation.main.home.admin.creation_form
 
 import MyAlertDialog
-import MyBorderBox
+import MyElevatedCard
 import MyOutlinedTextField
 import MyTopAppBar
 import androidx.compose.foundation.layout.Column
@@ -108,7 +108,7 @@ fun CreationFormContent(
         modifier = modifier
     ) {
         item {
-            MyBorderBox {
+            MyElevatedCard {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -133,7 +133,7 @@ fun CreationFormContent(
 
             state.form.questions.forEachIndexed { index, question ->
 
-                MyBorderBox {
+                MyElevatedCard {
                     ChooseQuestionTypeComposable(
                         question,
                         onAnswerChanged = { },
