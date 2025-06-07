@@ -36,7 +36,13 @@ fun Navigation(
         }
 
         composable(GeneralNavigationScreenNames.Main.name){
-            MainScreen()
+            MainScreen(
+                logout = {
+                    navController.navigate(GeneralNavigationScreenNames.Login.name) {
+                        popUpTo(GeneralNavigationScreenNames.Main.name) { inclusive = true }
+                    }
+                }
+            )
         }
     }
 }

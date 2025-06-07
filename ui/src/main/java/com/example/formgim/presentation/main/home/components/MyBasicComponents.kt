@@ -50,7 +50,8 @@ fun MyBorderBox(
 fun MyTopAppBar(
     title: String,
     backEvent: () -> Unit,
-    actions: @Composable RowScope.() -> Unit = {}
+    actions: @Composable RowScope.() -> Unit = {},
+    showBackEvent: Boolean = true,
 ) {
     TopAppBar(
         title = {
@@ -63,12 +64,15 @@ fun MyTopAppBar(
             containerColor = colorScheme.primaryContainer,
             titleContentColor = colorScheme.onPrimaryContainer
         ),
+
         navigationIcon = {
-            IconButton(onClick = { backEvent() }) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Localized description"
-                )
+            if (showBackEvent) {
+                IconButton(onClick = { backEvent() }) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Localized description"
+                    )
+                }
             }
         },
         actions = actions,

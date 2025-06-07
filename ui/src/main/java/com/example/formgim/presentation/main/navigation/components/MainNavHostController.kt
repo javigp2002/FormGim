@@ -12,6 +12,7 @@ import com.example.formgim.presentation.main.home.admin.form_stats.DataFormScree
 import com.example.formgim.presentation.main.home.answered_form_screen.DoneFormScreen
 import com.example.formgim.presentation.main.home.form_to_fill.FormToFillScreen
 import com.example.formgim.presentation.main.navigation.MainNavigationScreenNames
+import com.example.formgim.presentation.main.profile.ProfileScreen
 
 @Composable
 fun MainNavHostController(
@@ -90,7 +91,9 @@ fun MainNavHostController(
         }
 
         composable(MainNavigationScreenNames.Settings.name) {
-            SettingsScreen()
+            ProfileScreen(
+                logout = logout,
+            )
         }
     }
 }

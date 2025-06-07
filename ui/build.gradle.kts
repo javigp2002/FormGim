@@ -85,4 +85,7 @@ dependencies {
     // Login
     implementation(libs.identity.credential)
     implementation(libs.googleid)
+
+    // Image loading
+    implementation(libs.coil.compose)
 }
