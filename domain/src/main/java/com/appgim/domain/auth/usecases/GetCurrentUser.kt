@@ -13,9 +13,9 @@ class GetCurrentUser @Inject constructor(
 
         user = UserModel(
             id = 1,
-            idGoogle = "sad",
             name = "John",
             surname = "Doe",
+            pictureUrl = "https://example.com/john_doe.jpg",
             email = "jd@gmail.com",
             isAdmin = true
         )
