@@ -11,5 +11,5 @@ data class BackendAuthResponse(
     val surname: String,
     val pictureUrl: String,
     val email: String,
-    val isAdmin: Boolean
+    val isAdmin: Int
 )

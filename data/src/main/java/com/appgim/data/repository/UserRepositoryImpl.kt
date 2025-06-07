@@ -17,4 +17,12 @@ class UserRepositoryImpl @Inject constructor(
         return sharedPreferences.saveUser(user)
     }
 
+    override fun saveToken(token: String) {
+        return sharedPreferences.saveToken(token)
+    }
+
+    override fun getToken(): String? {
+        return sharedPreferences.getToken()
+    }
+
 }

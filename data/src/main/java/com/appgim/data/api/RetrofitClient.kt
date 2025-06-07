@@ -1,9 +1,11 @@
 package com.appgim.data.api
 
+import com.appgim.data.api.dto.from_back.BackendAuthResponse
 import com.appgim.data.api.dto.from_back.BasicFormDto
 import com.appgim.data.api.dto.from_back.GetFullFormDto
 import com.appgim.data.api.dto.to_back.FormDataJson
 import com.appgim.data.api.dto.to_back.SaveAnswersFromUserDto
+import com.appgim.data.api.dto.to_back.SendTokenDto
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -74,6 +76,10 @@ interface RetrofitClient {
     @OptIn(InternalSerializationApi::class)
     @POST("form/{id}/save_answers")
     suspend fun saveAnswers(@Path("id") idForm: Int, @Body value: SaveAnswersFromUserDto): Boolean
+
+    @OptIn(InternalSerializationApi::class)
+    @POST("login")
+    suspend fun signInWithGoogleToken(@Body googleToken: SendTokenDto): BackendAuthResponse
 
     object FormApi {
         val retrofitService: RetrofitClient by lazy {

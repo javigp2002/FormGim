@@ -1,7 +1,8 @@
 package com.appgim.data.repository
 
-import com.appgim.data.api.isUserAuthorized
 import com.appgim.data.api.RetrofitClient.FormApi
+import com.appgim.data.api.dto.to_back.SendTokenDto
+import com.appgim.data.api.isUserAuthorized
 import com.appgim.domain.auth.models.UserModel
 import com.appgim.domain.auth.repositories.AuthRepository
 import kotlinx.coroutines.CoroutineScope
@@ -11,7 +12,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.InternalSerializationApi
 import javax.inject.Inject
@@ -34,7 +34,7 @@ class AuthRepositoryImpl @Inject constructor() : AuthRepository {
     override suspend fun signInWithServer(googleToken: String): Result<UserModel> =
         withContext(Dispatchers.IO) {
             try {
-                val backResponse = FormApi.retrofitService.signInWithGoogleToken(googleToken)
+                val backResponse = FormApi.retrofitService.signInWithGoogleToken(SendTokenDto(googleToken))
 
                 val user = UserModel(
                     id = backResponse.id,
@@ -42,7 +42,7 @@ class AuthRepositoryImpl @Inject constructor() : AuthRepository {
                     surname = backResponse.surname,
                     email = backResponse.email,
                     pictureUrl = backResponse.pictureUrl,
-                    isAdmin = backResponse.isAdmin
+                    isAdmin = backResponse.isAdmin == 1
                 )
 
                 Result.success(user)

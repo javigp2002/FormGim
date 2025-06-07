@@ -6,4 +6,6 @@ interface UserRepository {
     fun getUser(): UserModel?
 
     fun saveUser(user: UserModel): Boolean
+    fun saveToken(string: String)
+    fun getToken(): String?
 }
