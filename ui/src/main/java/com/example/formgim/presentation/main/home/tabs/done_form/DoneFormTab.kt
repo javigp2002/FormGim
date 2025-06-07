@@ -23,6 +23,7 @@ fun DoneForm(
     ListFormsLazyColumn(
         modifier = modifier,
         form = homeListState.forms,
-        goToDetail = goToDetail
+        goToDetail = goToDetail,
+        nameButtonToDetail = "Ver Respuesta",
     )
 }

@@ -84,7 +84,8 @@ fun MyTopAppBar(
 fun ListFormsLazyColumn(
     form: List<HomeFormCard>,
     modifier: Modifier = Modifier,
-    goToDetail: (formId: Int) -> Unit = {}
+    goToDetail: (formId: Int) -> Unit = {},
+    nameButtonToDetail: String = "Realizar",
 ) {
     LazyColumn {
         items(
@@ -99,7 +100,8 @@ fun ListFormsLazyColumn(
                 ),
                 onClick = {
                     goToDetail(form[index].id)
-                }
+                },
+                nameButton = nameButtonToDetail,
             )
         }
     }

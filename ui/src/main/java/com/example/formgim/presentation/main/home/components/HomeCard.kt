@@ -25,7 +25,9 @@ import com.example.formgim.ui.theme.Constants
 @Composable
 fun HomeCard(
     homeFormCard: HomeFormCard,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
+    nameButton: String = "Realizar",
 ) {
     Card(
         modifier = Modifier
@@ -59,7 +61,7 @@ fun HomeCard(
                         shape = MaterialTheme.shapes.small
                     )
                 ) {
-                    Text(text = "Realizar", color = MaterialTheme.colorScheme.primary)
+                    Text(text = nameButton, color = MaterialTheme.colorScheme.primary)
                 }
             }
 

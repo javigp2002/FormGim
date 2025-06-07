@@ -23,6 +23,7 @@ fun MyFormsTab(
     ListFormsLazyColumn(
         modifier = modifier,
         form = homeListState.forms,
-        goToDetail = goToDetail
+        goToDetail = goToDetail,
+        nameButtonToDetail = "Ver Respuestas",
     )
 }
