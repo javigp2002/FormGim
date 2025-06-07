@@ -5,6 +5,9 @@ import com.appgim.data.api.dto.from_back.GetFullFormDto
 import com.appgim.data.api.dto.to_back.FormDataJson
 import com.appgim.data.api.dto.to_back.SaveAnswersFromUserDto
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -19,9 +22,25 @@ private const val BASE_URL =
     "http://10.0.2.2:3000"
 
 
+private val _isUserAuthorized = MutableStateFlow(true)
+val isUserAuthorized: StateFlow<Boolean> = _isUserAuthorized.asStateFlow()
+
+private val interceptor = okhttp3.Interceptor { chain ->
+    val response = chain.proceed(chain.request().newBuilder().build())
+    if (response.code == 401) { // Unauthorized
+        _isUserAuthorized.value = false
+    }
+    response
+}
+
 private val retrofit = Retrofit.Builder()
     .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
     .baseUrl(BASE_URL)
+    .client(
+        okhttp3.OkHttpClient.Builder()
+            .addInterceptor(interceptor)
+            .build()
+    )
     .build()
 
 
