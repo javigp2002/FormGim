@@ -19,9 +19,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor() : ViewModel() {
+class LoginViewModel @Inject constructor(
+    private val signInUseCase : GoogleSignInUseCase
+) : ViewModel() {
 //    private lateinit var credentialManager: CredentialManager
-    private lateinit var signInUseCase : GoogleSignInUseCase
 
     init {
         // Initialize CredentialManager and SignInUseCase here
@@ -63,7 +64,10 @@ class LoginViewModel @Inject constructor() : ViewModel() {
             try {
                 val result = credentialManager.getCredential(context, request)
                 android.widget.Toast.makeText(context, "after get cred", android.widget.Toast.LENGTH_SHORT).show()
+
                 signInUseCase.handleSignIn(result, context)
+                Log.e("ism", result.toString())
+
             } catch (e: GetCredentialException) {
                 Log.e("SignInError", "GetCredentialException: ", e)
             }
