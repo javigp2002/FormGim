@@ -14,7 +14,6 @@ import com.example.formgim.presentation.main.home.tabs.new_form.NewFormsTab
 fun HomeTabHost(
     navController: NavHostController,
     startDestination: HomeTab,
-    isAdmin: Boolean,
     goToDetail: (formId: Int) -> Unit,
     goToDoneForm: (formId: Int) -> Unit,
     goToFormStats: (formId: Int) -> Unit,

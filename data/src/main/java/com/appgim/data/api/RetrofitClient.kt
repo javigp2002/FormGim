@@ -1,7 +1,9 @@
 package com.appgim.data.api
 
-import com.appgim.data.api.dto.FormDataJson
-import com.appgim.domain.main.home.models.FormData
+import com.appgim.data.api.dto.from_back.BasicFormDto
+import com.appgim.data.api.dto.from_back.GetFullFormDto
+import com.appgim.data.api.dto.to_back.FormDataJson
+import com.appgim.data.api.dto.to_back.SaveAnswersFromUserDto
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.json.Json
@@ -38,6 +40,21 @@ interface RetrofitClient {
     @POST("form/save")
     suspend fun saveForm(@Body formData: FormDataJson): Boolean
 
+    @OptIn(InternalSerializationApi::class)
+    @GET("form/{id}")
+    suspend fun getForm(@Path("id") id: Int): GetFullFormDto
+
+    @OptIn(InternalSerializationApi::class)
+    @GET("form/{id}/answered/{idUser}")
+    suspend fun getFormAnswered(@Path("id") id: Int, @Path("idUser") idUser: Int): GetFullFormDto
+
+    @OptIn(InternalSerializationApi::class)
+    @GET("form/{id}/answers")
+    suspend fun getFormAnswers(@Path("id") id: Int): GetFullFormDto
+
+    @OptIn(InternalSerializationApi::class)
+    @POST("form/{id}/save_answers")
+    suspend fun saveAnswers(@Path("id") idForm: Int, @Body value: SaveAnswersFromUserDto): Boolean
 
     object FormApi {
         val retrofitService: RetrofitClient by lazy {

@@ -1,14 +1,17 @@
 package com.example.formgim.presentation.main.home.components.form.data_components
 
+import QuestionDescriptionText
+import QuestionWithResponses
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,39 +25,44 @@ fun SliderData(
     questionTitle: String,
     values: List<Float>,
 ) {
-    Column(modifier = Modifier.padding(Constants.PaddingSizes.L.dp)) {
-        Text(
-            text = questionTitle, style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.primary,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier.height(Constants.PaddingSizes.M.dp))
-
+    QuestionWithResponses(
+        title = questionTitle,
+    ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
+                modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("Lista de Valores dados:", style = MaterialTheme.typography.bodyLarge)
+                Text(
+                    "Respuestas:", style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Bold
+                )
                 values.forEachIndexed { index, value ->
-                    Text(
-                        text = value.toString(),
-                        modifier = Modifier.padding(top = Constants.PaddingSizes.S.dp)
-                    )
+                    QuestionDescriptionText(value.toInt().toString())
                 }
             }
 
-            Column(
+            VerticalDivider(
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = Constants.PaddingSizes.M.dp),
+                    .padding(horizontal = Constants.PaddingSizes.M.dp)
+                    .fillMaxHeight()
+                    .height(40.dp)
+            )
+
+            Column(
+                modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("Media de Valores: ${values.average()}")
-
+                Text(
+                    "Media: \n${"%.2f".format(values.average())}",
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Bold
+                )
             }
         }
     }

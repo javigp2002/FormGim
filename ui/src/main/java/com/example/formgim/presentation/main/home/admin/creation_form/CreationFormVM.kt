@@ -40,7 +40,7 @@ class CreationFormVM @Inject constructor(
 
     fun onSaveClick(values: List<String>, questionTitle: String, type: TypeQuestionCreationForm) {
         val questionType = QuestionTypes.Creation.createQuestionType(
-            id = -1, questionTitle = questionTitle,
+            id = _stateOfView.value.form.questions.size + 1, questionTitle = questionTitle,
             type = type, values = values
         )
 

@@ -1,12 +1,13 @@
 package com.example.formgim.presentation.main.home.components.form.showing_question_type
 
-import androidx.compose.foundation.layout.Column
+import QuestionDescriptionText
+import QuestionWithResponses
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,8 +23,10 @@ fun SingleOptionAnswerQuestion(
     isError: Boolean,
     readonly: Boolean = true
 ) {
-    Column(modifier = Modifier.padding(Constants.PaddingSizes.L.dp)) {
-        Text(text = questionTitle)
+    QuestionWithResponses(
+        title = questionTitle,
+    ) {
+        Spacer(modifier = Modifier.height(Constants.PaddingSizes.M.dp))
         options.forEachIndexed { index, opcion ->
             Row(verticalAlignment = Alignment.CenterVertically) {
                 RadioButton(
@@ -39,7 +42,7 @@ fun SingleOptionAnswerQuestion(
                     },
                     enabled = !readonly
                 )
-                Text(text = opcion)
+                QuestionDescriptionText(opcion)
             }
         }
     }

@@ -18,7 +18,7 @@ import javax.inject.Inject
 class FormToFillVm @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getListOfQuestionsFromForm: GetListOfQuestionsFromForm,
-    private val sendAnswers: SendAnswers
+    private val sendAnswers: SendAnswers,
 ) : ViewModel() {
     private val formId: Int = savedStateHandle["formId"] ?: throw IllegalArgumentException("formId is required")
 
@@ -37,7 +37,7 @@ class FormToFillVm @Inject constructor(
         viewModelScope.launch {
             getListOfQuestionsFromForm.run(id).let { questions ->
                 _stateOfView.value = _stateOfView.value.copy(
-                    forms = questions,
+                    forms = questions.questions,
                     isLoading = false
                 )
 
@@ -106,7 +106,21 @@ class FormToFillVm @Inject constructor(
                 _stateOfView.value = _stateOfView.value.copy(error = true)
                 return@launch
             }
-            sendAnswers.run(formId = formId, _stateOfView.value.forms)
+
+            val result = sendAnswers.run(formId = formId, _stateOfView.value.forms)
+
+            if (result.isSuccess) {
+                _stateOfView.value = _stateOfView.value.copy(
+                    showAlertDialog = true,
+                    error = false
+                )
+            } else {
+                _stateOfView.value = _stateOfView.value.copy(
+                    error = true,
+                    showAlertDialog = false
+                )
+            }
+
             _stateOfView.value = _stateOfView.value.copy(showAlertDialog = true)
         }
     }

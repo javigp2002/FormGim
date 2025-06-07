@@ -6,6 +6,7 @@ import com.appgim.domain.main.home.models.dataform.QuestionTypesForDataForm
 @Composable
 fun ChooseDataComposable(
     questionType: QuestionTypesForDataForm,
+    timesFormDone: Int = 0
 ) {
     when (questionType) {
         is QuestionTypesForDataForm.TextBox -> {
@@ -20,6 +21,7 @@ fun ChooseDataComposable(
                 questionTitle = questionType.multipleOptionModel.question,
                 options = questionType.multipleOptionModel.opciones,
                 selected = questionType.multipleOptionModel.seleccion,
+                timesFormDone = timesFormDone
             )
         }
 
@@ -27,7 +29,8 @@ fun ChooseDataComposable(
             RadioData(
                 questionTitle = questionType.singleOptionModel.question,
                 options = questionType.singleOptionModel.opciones,
-                selection = questionType.singleOptionModel.seleccion,
+                selected = questionType.singleOptionModel.seleccion,
+                timesFormDone = timesFormDone
             )
         }
 

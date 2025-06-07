@@ -1,29 +1,26 @@
 package com.example.formgim.presentation.main.home.components.form.showing_question_type
 
 import MyOutlinedTextField
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import QuestionWithResponses
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.example.formgim.ui.theme.Constants
+import androidx.compose.ui.res.stringResource
+import com.example.formgim.R
 
 @Composable
 fun BoxQuestion(
     questionTitle: String, value: String, onTextoChange: (String) -> Unit, isError: Boolean,
     readonly: Boolean = true
 ) {
-    Column(modifier = Modifier.padding(Constants.PaddingSizes.L.dp)) {
-        Text(text = questionTitle)
-        Spacer(modifier = Modifier.height(Constants.PaddingSizes.M.dp))
+    QuestionWithResponses(
+        title = questionTitle,
+    ) {
         MyOutlinedTextField(
             value = value,
             onValueChange = onTextoChange,
-            label = { Text("Caja de texto") },
+            label = { Text(stringResource(R.string.cajaTexto)) },
             modifier = Modifier.fillMaxWidth(),
             isError = isError,
             readonly = readonly,

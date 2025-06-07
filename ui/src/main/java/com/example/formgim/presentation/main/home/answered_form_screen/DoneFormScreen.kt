@@ -1,5 +1,6 @@
 package com.example.formgim.presentation.main.home.answered_form_screen
 
+import MyElevatedCard
 import MyTopAppBar
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -12,7 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.formgim.presentation.main.home.components.form.data_components.ChooseDataComposable
+import com.example.formgim.presentation.main.home.components.form.showing_question_type.ChooseQuestionTypeComposable
 
 @Composable
 fun DoneFormScreen(
@@ -44,9 +45,12 @@ fun DoneFormScreen(
                     .padding(0.dp, innerPadding.calculateTopPadding(), 0.dp, 0.dp)
             ) {
                 items(listFormState.forms.size) { index ->
-                    ChooseDataComposable(
-                        listFormState.forms[index]
-                    )
+                    MyElevatedCard {
+                        ChooseQuestionTypeComposable(
+                            listFormState.forms[index],
+                            readonly = true,
+                        )
+                    }
                 }
             }
         }

@@ -1,17 +1,13 @@
 package com.example.formgim.presentation.main.home.components.form.showing_question_type
 
-import androidx.compose.foundation.layout.Column
+import QuestionDescriptionText
+import QuestionWithResponses
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.example.formgim.ui.theme.Constants
 
 @Composable
 fun MultipleOptionQuestion(
@@ -22,8 +18,9 @@ fun MultipleOptionQuestion(
     isError: Boolean,
     enabled: Boolean = true
 ) {
-    Column(modifier = Modifier.padding(Constants.PaddingSizes.L.dp)) {
-        Text(text = questionTitle)
+    QuestionWithResponses(
+        title = questionTitle,
+    ) {
         options.forEachIndexed { index, opcion ->
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(
@@ -44,7 +41,7 @@ fun MultipleOptionQuestion(
                     },
                     enabled = enabled
                 )
-                Text(text = opcion)
+                QuestionDescriptionText(opcion)
             }
         }
     }

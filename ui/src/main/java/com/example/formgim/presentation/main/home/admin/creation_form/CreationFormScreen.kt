@@ -1,7 +1,7 @@
 package com.example.formgim.presentation.main.home.admin.creation_form
 
 import MyAlertDialog
-import MyBorderBox
+import MyElevatedCard
 import MyOutlinedTextField
 import MyTopAppBar
 import androidx.compose.foundation.layout.Column
@@ -10,15 +10,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -56,6 +59,18 @@ fun CreationFormScreen(onBack: () -> Unit, viewModel: CreationFormVM = hiltViewM
                     }
                 }
             )
+        },
+        floatingActionButton = {
+            if (!listFormState.isAddingNewQuestion) {
+                FloatingActionButton(
+                    onClick = { viewModel.onClickAddNew() }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Añadir nueva pregunta"
+                    )
+                }
+            }
         }
     ) { innerPadding ->
         if (listFormState.isLoading) {
@@ -104,11 +119,14 @@ fun CreationFormContent(
     onClickAddNew: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val listState = rememberLazyListState()
+
     LazyColumn(
-        modifier = modifier
+        modifier = modifier,
+        state = listState
     ) {
         item {
-            MyBorderBox {
+            MyElevatedCard {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -126,42 +144,41 @@ fun CreationFormContent(
                         label = { Text("Descripción del formulario") }
                     )
                 }
-
             }
 
             Spacer(modifier = Modifier.padding(vertical = Constants.PaddingSizes.M.dp))
+        }
 
-            state.form.questions.forEachIndexed { index, question ->
-
-                MyBorderBox {
-                    ChooseQuestionTypeComposable(
-                        question,
-                        onAnswerChanged = { },
-                        onMultipleChanged = { },
-                        onSingleChanged = { },
-                        onSliderChanged = { },
-                        readonly = true,
-                    )
-                }
-
+        items(state.form.questions.size) { index ->
+            val question = state.form.questions[index]
+            MyElevatedCard {
+                ChooseQuestionTypeComposable(
+                    questionType = question,
+                    onAnswerChanged = { },
+                    onMultipleChanged = { },
+                    onSingleChanged = { },
+                    onSliderChanged = { },
+                    readonly = true,
+                )
             }
+        }
 
+        item(
+            key = "add_new_question_button"
+        ) {
             if (state.isAddingNewQuestion) {
                 CreationFormComponents(
                     onSaveClick = onSaveClick,
                 )
-            } else {
-                TextButton(
-                    modifier = Modifier
-                        .padding(vertical = Constants.PaddingSizes.M.dp),
-                    onClick = { onClickAddNew() }
-                ) {
-                    Text("Añadir nueva pregunta")
-                }
             }
-
-
-
         }
+    }
+
+    LaunchedEffect(state.form.questions.size, !state.isAddingNewQuestion) {
+        listState.animateScrollToItem(state.form.questions.size)
+    }
+
+    LaunchedEffect(state.form.questions.size, state.isAddingNewQuestion) {
+        listState.animateScrollToItem(state.form.questions.size + 1)
     }
 }
