@@ -85,6 +85,8 @@ fun HomeScreen(
         Column {
             PrimaryTabRow(selectedTabIndex = selectedDestination, modifier = Modifier.padding(contentPadding)) {
                 HomeTab.entries.forEachIndexed { index, destination ->
+                    if (index == HomeTab.MyForms.ordinal && !homeListState.isAdmin) return@forEachIndexed
+
                     Tab(
                         selected = selectedDestination == index,
                         onClick = {

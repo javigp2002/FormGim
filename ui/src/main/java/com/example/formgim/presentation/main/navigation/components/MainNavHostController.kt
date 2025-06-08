@@ -1,6 +1,5 @@
 package com.example.formgim.presentation.main.navigation.components
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -97,5 +96,3 @@ fun MainNavHostController(
         }
     }
 }
-
-@Composable fun SettingsScreen() { Text("Profile") }

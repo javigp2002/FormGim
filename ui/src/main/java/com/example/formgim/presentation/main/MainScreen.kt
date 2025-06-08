@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.formgim.presentation.main.navigation.MainNavigationScreenNames
-import com.example.formgim.presentation.main.navigation.components.AdminBottonNavBar
 import com.example.formgim.presentation.main.navigation.components.MainNavHostController
 import com.example.formgim.presentation.main.navigation.components.MyBottomNavBar
 import com.example.formgim.presentation.main.navigation.currentRoute
@@ -39,11 +38,7 @@ fun MainScreen(
     Scaffold(
         bottomBar = {
             if (showBottomBarInSelectedDestinations) {
-                if (isAdminState.value) {
                     MyBottomNavBar(navController)
-                } else {
-                    AdminBottonNavBar(navController)
-                }
             }
         }
     ) { padding ->
