@@ -35,9 +35,9 @@ class FormToFillVm @Inject constructor(
 
     fun getListOfQuestionsFromFormId(id: Int) {
         viewModelScope.launch {
-            getListOfQuestionsFromForm.run(id).let { questions ->
+            getListOfQuestionsFromForm.run(id).let { form ->
                 _stateOfView.value = _stateOfView.value.copy(
-                    forms = questions.questions,
+                    form = form,
                     isLoading = false
                 )
 
@@ -47,7 +47,7 @@ class FormToFillVm @Inject constructor(
     }
 
     fun updateAnswer(index: Int, answer: String) {
-        val updatedList = _stateOfView.value.forms.toMutableList()
+        val updatedList = _stateOfView.value.form.questions.toMutableList()
         val question = updatedList[index]
         if (question is QuestionTypes.TextBox) {
             val updatedQuestion = QuestionTypes.TextBox(
@@ -56,12 +56,14 @@ class FormToFillVm @Inject constructor(
             updatedList[index] = updatedQuestion
         }
         _stateOfView.value = _stateOfView.value.copy(
-            forms = updatedList
+            form = _stateOfView.value.form.copy(
+                questions = updatedList
+            )
         )
     }
 
     fun updateSliderAnswer(index: Int, answer: Float) {
-        val updatedList = _stateOfView.value.forms.toMutableList()
+        val updatedList = _stateOfView.value.form.questions.toMutableList()
         val question = updatedList[index]
         if (question is QuestionTypes.Slider) {
             updatedList[index] = QuestionTypes.Slider(
@@ -69,12 +71,14 @@ class FormToFillVm @Inject constructor(
             )
         }
         _stateOfView.value = _stateOfView.value.copy(
-            forms = updatedList
+            form = _stateOfView.value.form.copy(
+                questions = updatedList
+            )
         )
     }
 
     fun updateSingleSelection(index: Int, selected: Int) {
-        val updatedList = _stateOfView.value.forms.toMutableList()
+        val updatedList = _stateOfView.value.form.questions.toMutableList()
         val question = updatedList[index]
         if (question is QuestionTypes.SingleOption) {
             updatedList[index] = QuestionTypes.SingleOption(
@@ -82,12 +86,14 @@ class FormToFillVm @Inject constructor(
             )
         }
         _stateOfView.value = _stateOfView.value.copy(
-            forms = updatedList
+            form = _stateOfView.value.form.copy(
+                questions = updatedList
+            )
         )
     }
 
     fun updateMultipleSelection(index: Int, selected: Set<Int>) {
-        val updatedList = _stateOfView.value.forms.toMutableList()
+        val updatedList = _stateOfView.value.form.questions.toMutableList()
         val question = updatedList[index]
         if (question is QuestionTypes.Multiple) {
             updatedList[index] = QuestionTypes.Multiple(
@@ -95,7 +101,9 @@ class FormToFillVm @Inject constructor(
             )
         }
         _stateOfView.value = _stateOfView.value.copy(
-            forms = updatedList
+            form = _stateOfView.value.form.copy(
+                questions = updatedList
+            )
         )
 
     }
@@ -107,7 +115,7 @@ class FormToFillVm @Inject constructor(
                 return@launch
             }
 
-            val result = sendAnswers.run(formId = formId, _stateOfView.value.forms)
+            val result = sendAnswers.run(formId = formId, _stateOfView.value.form.questions)
 
             if (result.isSuccess) {
                 _stateOfView.value = _stateOfView.value.copy(
@@ -127,9 +135,9 @@ class FormToFillVm @Inject constructor(
 
     fun checkAnswers(): Boolean {
         var ok = true
-        val updatedList = _stateOfView.value.forms.toMutableList()
+        val updatedList = _stateOfView.value.form.questions.toMutableList()
 
-        _stateOfView.value.forms.forEachIndexed { index, question ->
+        _stateOfView.value.form.questions.forEachIndexed { index, question ->
             when (question) {
                 is QuestionTypes.TextBox -> {
                     var error = false
@@ -172,7 +180,9 @@ class FormToFillVm @Inject constructor(
             }
         }
         _stateOfView.value = _stateOfView.value.copy(
-            forms = updatedList
+            form = _stateOfView.value.form.copy(
+                questions = updatedList
+            )
         )
         return ok
     }

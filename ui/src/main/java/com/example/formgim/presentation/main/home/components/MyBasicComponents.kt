@@ -23,6 +23,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -110,10 +111,11 @@ fun ListFormsLazyColumn(
 
 @Composable
 fun MyElevatedCard(
-    content: @Composable () -> Unit
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(Constants.PaddingSizes.M.dp),
         elevation = cardElevation(4.dp),
@@ -124,11 +126,14 @@ fun MyElevatedCard(
 
 @Composable
 fun QuestionTitleText(
-    questionTitle: String
+    questionTitle: String,
+    modifier: Modifier = Modifier,
+    style: TextStyle = typography.titleLarge
 ) {
     Text(
+        modifier = modifier,
         text = questionTitle,
-        style = typography.titleLarge,
+        style = style,
         color = colorScheme.secondary,
         fontWeight = FontWeight.Bold
     )

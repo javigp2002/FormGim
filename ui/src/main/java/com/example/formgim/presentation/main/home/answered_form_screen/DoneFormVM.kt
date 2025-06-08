@@ -34,7 +34,7 @@ class DoneFormVM @Inject constructor(
         viewModelScope.launch {
             getListOfAnswers.run(id).let { form ->
                 _stateOfView.value = _stateOfView.value.copy(
-                    forms = form.questions,
+                    form = form,
                     isLoading = false
                 )
             }

@@ -1,11 +1,14 @@
 package com.example.formgim.presentation.main.home.form_to_fill.states
 
-import com.appgim.domain.main.home.models.form.QuestionTypes
+import com.appgim.domain.main.home.models.FormData
 
 data class ListFormState(
-    var isLoading: Boolean = false,
-    var error: Boolean = false,
-    var forms: List<QuestionTypes> = emptyList<QuestionTypes>(),
-
-    var showAlertDialog: Boolean = false,
+    val isLoading: Boolean = false,
+    val error: Boolean = false,
+    val form: FormData = FormData(
+        title = "",
+        description = "",
+        questions = emptyList(),
+    ),
+    val showAlertDialog: Boolean = false,
 )
