@@ -25,7 +25,6 @@ class GoogleSignInUseCase @Inject constructor(
                     try {
                         val googleIdTokenCredential = GoogleIdTokenCredential
                             .createFrom(credential.data)
-                        Log.d("JAVI", "Google ID Token: ${googleIdTokenCredential.idToken}")
                         return signInWithServer(googleIdTokenCredential.idToken)
                     } catch (e: GoogleIdTokenParsingException) {
                         Log.e(TAG, "Received an invalid google id token response", e)

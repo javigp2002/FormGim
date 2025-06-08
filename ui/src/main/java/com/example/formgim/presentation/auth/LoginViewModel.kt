@@ -39,9 +39,7 @@ class LoginViewModel @Inject constructor(
 
             try {
                 val credentials = credentialManager.getCredential(context, request)
-                Log.e("JAVI", "Credentials: $credentials")
                 result = signInUseCase.handleSignIn(credentials)
-                Log.e("JAVI", "SignIn Result: $result")
 
             } catch (e: GetCredentialException) {
                 Log.e("SignInError", "GetCredentialException: ", e)
