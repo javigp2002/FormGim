@@ -1,17 +1,21 @@
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults.cardElevation
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -165,4 +169,50 @@ fun QuestionWithResponses(
             responses()
         }
     }
+}
+
+
+@Composable
+fun FormHeader(
+    title: String,
+    description: String,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(Constants.PaddingSizes.S.dp)
+    ) {
+        QuestionTitleText(
+            questionTitle = title,
+            modifier = Modifier.padding(
+                horizontal = Constants.PaddingSizes.M.dp,
+                vertical = Constants.PaddingSizes.S.dp,
+            ),
+            style = typography.displaySmall
+        )
+    }
+    QuestionDescriptionText(questionDescription = description)
+    Spacer(modifier = Modifier.height(Constants.PaddingSizes.XL.dp))
+    HorizontalDivider()
+    Spacer(modifier = Modifier.height(Constants.PaddingSizes.L.dp))
+}
+
+
+@Composable
+fun MyLazyColumn(
+    innerPadding: PaddingValues,
+    content: LazyListScope.() -> Unit
+) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                Constants.PaddingSizes.S.dp,
+                innerPadding.calculateTopPadding(),
+                Constants.PaddingSizes.S.dp,
+                0.dp
+            ),
+        content = content
+    )
 }

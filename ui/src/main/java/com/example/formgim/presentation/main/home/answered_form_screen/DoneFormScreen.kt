@@ -1,17 +1,12 @@
 package com.example.formgim.presentation.main.home.answered_form_screen
 
+import FormHeader
 import MyElevatedCard
+import MyLazyColumn
 import MyTopAppBar
-import QuestionDescriptionText
-import QuestionTitleText
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -46,32 +41,16 @@ fun DoneFormScreen(
                     .padding(innerPadding.calculateTopPadding())
             )
         } else {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(
-                        Constants.PaddingSizes.S.dp,
-                        innerPadding.calculateTopPadding(),
-                        Constants.PaddingSizes.S.dp,
-                        0.dp
-                    )
-            ) {
+            MyLazyColumn(innerPadding = innerPadding) {
                 item {
-                    QuestionTitleText(
-                        questionTitle = listFormState.form.title,
+                    FormHeader(
+                        title = listFormState.form.title,
+                        description = listFormState.form.description,
                         modifier = Modifier.padding(
-                            horizontal = Constants.PaddingSizes.M.dp,
-                            vertical = Constants.PaddingSizes.S.dp,
-                        ),
-                        style = typography.displaySmall
+                            horizontal = Constants.PaddingSizes.S.dp,
+                            vertical = Constants.PaddingSizes.M.dp
+                        )
                     )
-                }
-                item {
-                    QuestionDescriptionText(questionDescription = listFormState.form.description)
-                    Spacer(modifier = Modifier.height(Constants.PaddingSizes.XL.dp))
-                    HorizontalDivider()
-                    Spacer(modifier = Modifier.height(Constants.PaddingSizes.L.dp))
-
                 }
 
                 items(listFormState.form.questions.size) { index ->
@@ -85,8 +64,6 @@ fun DoneFormScreen(
             }
         }
     }
-
-
 }
 
 
