@@ -1,52 +1,17 @@
 package com.appgim.data.api
 
-import com.appgim.data.api.dto.from_back.BackendAuthResponse
 import com.appgim.data.api.dto.from_back.BasicFormDto
 import com.appgim.data.api.dto.from_back.GetFullFormDto
 import com.appgim.data.api.dto.to_back.FormDataJson
 import com.appgim.data.api.dto.to_back.SaveAnswersFromUserDto
-import com.appgim.data.api.dto.to_back.SendTokenDto
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.serialization.InternalSerializationApi
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
-import retrofit2.Retrofit
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 
 
-private const val BASE_URL =
-    "http://10.0.2.2:3000"
-
-
-private val _isUserAuthorized = MutableStateFlow(true)
-val isUserAuthorized: StateFlow<Boolean> = _isUserAuthorized.asStateFlow()
-
-private val interceptor = okhttp3.Interceptor { chain ->
-    val response = chain.proceed(chain.request().newBuilder().build())
-    if (response.code == 401) { // Unauthorized
-        _isUserAuthorized.value = false
-    }
-    response
-}
-
-private val retrofit = Retrofit.Builder()
-    .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
-    .baseUrl(BASE_URL)
-    .client(
-        okhttp3.OkHttpClient.Builder()
-            .addInterceptor(interceptor)
-            .build()
-    )
-    .build()
-
-
-interface RetrofitClient {
+interface MainApiService {
 
     @POST("new_forms")
     suspend fun getNewForm(@Body requestBody: Map<String, Int>): List<BasicFormDto>
@@ -76,14 +41,4 @@ interface RetrofitClient {
     @OptIn(InternalSerializationApi::class)
     @POST("form/{id}/save_answers")
     suspend fun saveAnswers(@Path("id") idForm: Int, @Body value: SaveAnswersFromUserDto): Boolean
-
-    @OptIn(InternalSerializationApi::class)
-    @POST("login")
-    suspend fun signInWithGoogleToken(@Body googleToken: SendTokenDto): BackendAuthResponse
-
-    object FormApi {
-        val retrofitService: RetrofitClient by lazy {
-            retrofit.create(RetrofitClient::class.java)
-        }
-    }
 }

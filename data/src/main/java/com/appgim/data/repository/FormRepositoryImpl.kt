@@ -1,7 +1,7 @@
 package com.appgim.data.repository
 
 import android.util.Log
-import com.appgim.data.api.RetrofitClient.FormApi
+import com.appgim.data.api.MainApiService
 import com.appgim.data.api.dto.from_back.BasicFormDto
 import com.appgim.data.api.dto.to_back.SaveAnswersDto
 import com.appgim.data.api.dto.to_back.SaveAnswersFromUserDto
@@ -25,11 +25,13 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.InternalSerializationApi
 import javax.inject.Inject
 
-class FormRepositoryImpl @Inject constructor() : FormRepository {
+class FormRepositoryImpl @Inject constructor(
+    private val formApi: MainApiService
+) : FormRepository {
     override suspend fun getActiveForms(idUser: Int): Result<List<HomeFormCard>> =
         withContext(Dispatchers.IO) {
             try {
-                val newForms = FormApi.retrofitService.getNewForm(mapOf("userId" to idUser))
+                val newForms = formApi.getNewForm(mapOf("userId" to idUser))
                 val homeFormCards = formsToHomeFormCard(newForms)
 
                 Result.success(homeFormCards)
@@ -41,7 +43,7 @@ class FormRepositoryImpl @Inject constructor() : FormRepository {
     override suspend fun getDoneForms(idUser: Int): Result<List<HomeFormCard>> =
         withContext(Dispatchers.IO) {
             try {
-                val doneForms = FormApi.retrofitService.getDoneForm(mapOf("userId" to idUser))
+                val doneForms = formApi.getDoneForm(mapOf("userId" to idUser))
                 val homeFormCards = formsToHomeFormCard(doneForms)
                 Result.success(homeFormCards)
             } catch (e: Exception) {
@@ -52,7 +54,7 @@ class FormRepositoryImpl @Inject constructor() : FormRepository {
     override suspend fun getAuthorForms(idUser: Int): Result<List<HomeFormCard>> =
         withContext(Dispatchers.IO) {
             try {
-                val doneForms = FormApi.retrofitService.getAuthorForm(mapOf("userId" to idUser))
+                val doneForms = formApi.getAuthorForm(mapOf("userId" to idUser))
                 val homeFormCards = formsToHomeFormCard(doneForms)
                 Result.success(homeFormCards)
             } catch (e: Exception) {
@@ -64,7 +66,7 @@ class FormRepositoryImpl @Inject constructor() : FormRepository {
     @OptIn(InternalSerializationApi::class)
     override suspend fun getFormFromId(id: Int): FormData =
         withContext(Dispatchers.IO) {
-            val result = FormApi.retrofitService.getForm(id)
+            val result = formApi.getForm(id)
 
             FormData(
                 id = result.id,
@@ -100,7 +102,7 @@ class FormRepositoryImpl @Inject constructor() : FormRepository {
     @OptIn(InternalSerializationApi::class)
     override suspend fun getFormAnsweredFromId(id: Int, idUser: Int): FormData {
         try {
-            val result = FormApi.retrofitService.getFormAnswered(id, idUser)
+            val result = formApi.getFormAnswered(id, idUser)
             return FormData(
                 id = result.id,
                 title = result.title,
@@ -157,7 +159,7 @@ class FormRepositoryImpl @Inject constructor() : FormRepository {
     @OptIn(InternalSerializationApi::class)
     override suspend fun getFormAnswers(id: Int): FormDataStats {
         try {
-            val result = FormApi.retrofitService.getFormAnswers(id)
+            val result = formApi.getFormAnswers(id)
             return FormDataStats(
                 id = result.id,
                 title = result.title,
@@ -265,7 +267,7 @@ class FormRepositoryImpl @Inject constructor() : FormRepository {
 
 
             Result.success(
-                FormApi.retrofitService.saveAnswers(
+                formApi.saveAnswers(
                     formId, SaveAnswersFromUserDto(
                         idUser = idUser,
                         answers = answersData
@@ -279,7 +281,7 @@ class FormRepositoryImpl @Inject constructor() : FormRepository {
         withContext(Dispatchers.IO) {
             try {
                 val formDataJson = createJson(formData)
-                val result = FormApi.retrofitService.saveForm(formDataJson)
+                val result = formApi.saveForm(formDataJson)
                 return@withContext result
             } catch (e: Exception) {
                 Log.e("JAVI", "Error saving form: ${e.message}")

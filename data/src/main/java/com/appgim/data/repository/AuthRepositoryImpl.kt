@@ -1,8 +1,8 @@
 package com.appgim.data.repository
 
-import com.appgim.data.api.RetrofitClient.FormApi
+import com.appgim.data.api.AuthRetrofitClient
 import com.appgim.data.api.dto.to_back.SendTokenDto
-import com.appgim.data.api.isUserAuthorized
+import com.appgim.data.api.interceptor.ResponseInterceptor
 import com.appgim.domain.auth.models.UserModel
 import com.appgim.domain.auth.repositories.AuthRepository
 import kotlinx.coroutines.CoroutineScope
@@ -17,14 +17,18 @@ import kotlinx.serialization.InternalSerializationApi
 import javax.inject.Inject
 
 
-class AuthRepositoryImpl @Inject constructor() : AuthRepository {
+class AuthRepositoryImpl @Inject constructor(
+    private val authApiService: AuthRetrofitClient,
+    private val responseInterceptor: ResponseInterceptor,
+
+    ) : AuthRepository {
     private val _isUserValid = MutableStateFlow(true)
     override val authState: StateFlow<Boolean> = _isUserValid.asStateFlow()
 
 
     init {
         CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
-            isUserAuthorized.collect { isAuthorized ->
+            responseInterceptor.isUserAuthorized.collect { isAuthorized ->
                 _isUserValid.value = isAuthorized
             }
         }
@@ -34,7 +38,7 @@ class AuthRepositoryImpl @Inject constructor() : AuthRepository {
     override suspend fun signInWithServer(googleToken: String): Result<UserModel> =
         withContext(Dispatchers.IO) {
             try {
-                val backResponse = FormApi.retrofitService.signInWithGoogleToken(SendTokenDto(googleToken))
+                val backResponse = authApiService.signInWithGoogleToken(SendTokenDto(googleToken))
 
                 val user = UserModel(
                     id = backResponse.id,
